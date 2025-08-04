@@ -3,7 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Lithu Tech.</title>
+    <title>Sande Tech - Services</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,18 +23,17 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body style="padding-top: 70px;">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
       <div class="container-fluid">
         <!-- Brand -->
         <a class="navbar-brand" href="home.html">
           <img
-            src="assets/Navy Simple Digital Service Tech Logo.gif"
-            height="30"
-            class="d-inline-block align-text-top"
+            src="assets/sandetechnologies-500.png"
+            class="navbar-logo"
+            alt="Sande Technologies Logo"
           />
-          LITHU
         </a>
         <!-- Toggler -->
         <button
@@ -45,113 +51,128 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#services">Services</a>
+              <a class="nav-link" href="home.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#products">Products</a>
+              <a class="nav-link active" href="services.html">Services</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#about">About Us</a>
+              <a class="nav-link" href="products.html">Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#blog">Blog</a>
+              <a class="nav-link" href="home.html#about">About Us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact">Contact</a>
+              <a class="nav-link" href="home.html#blog">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="home.html#contact">Contact</a>
             </li>
           </ul>
           <div class="d-flex ms-3">
-            <a href="#get-started" class="btn btn-custom">Get A Qoute</a>
+            <a href="mailto:sandetechnologiesmw@gmail.com?subject=Service%20Quote%20Request&body=Hi%20Sande%20Tech%20Team,%0A%0AI'm%20interested%20in%20your%20services.%20Please%20contact%20me%20to%20discuss%20my%20project." class="btn btn-custom">Get A Quote</a>
           </div>
         </div>
       </div>
     </nav>
-    <div class="header container">
-      <!-- Section 1 -->
-      <div class="row align-items-center section-spacing">
-        <h1 class="py-4">A Catalog Of Our Services</h1>
+    <!-- Header Section -->
+    <div class="page-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1>Our Services</h1>
+            <p class="page-subtitle">Professional development solutions for your business</p>
+          </div>
+        </div>
       </div>
     </div>
+
     <!-- Main Container -->
     <div class="container">
       <!-- Section 1 -->
-      <div class="row align-items-center section-spacing">
-        <div class="col-md-6">
-          <h2>Mobile App Development</h2>
-          <p>
-            We create intuitive and feature-rich mobile applications for iOS and
-            Android. Bring your ideas to life with apps built for startups and
-            businesses.
-          </p>
-          <a href="#service-details" class="btn btn-primary">Learn more</a>
-          <div class="more-info mt-4">
-            <h6>MORE ABOUT MOBILE APP DEVELOPMENT</h6>
-            <ul class="list-unstyled">
-              <li>Custom app development</li>
-              <li>Cross-platform solutions</li>
-            </ul>
+      <div class="service-section">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h2>Mobile App Development</h2>
+            <p>
+              We create intuitive and feature-rich mobile applications for iOS and
+              Android. Bring your ideas to life with apps built for startups and
+              businesses.
+            </p>
+            <a href="#" class="btn btn-enhanced" onclick="openServiceModal('app')">Learn More</a>
+            <div class="more-info">
+              <h6>More About Mobile App Development</h6>
+              <ul class="list-unstyled">
+                <li>Custom app development</li>
+                <li>Cross-platform solutions</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6 text-center">
-          <img
-            src="assets/posters/app dev.jpg"
-            alt="Mobile App Development"
-            class="img-fluid"
-          />
+          <div class="col-md-6 text-center">
+            <img
+              src="assets/posters/app dev.jpg"
+              alt="Mobile App Development"
+              class="img-fluid"
+            />
+          </div>
         </div>
       </div>
 
       <!-- Section 2 -->
-      <div class="row align-items-center section-spacing">
-        <div class="col-md-6 order-md-2">
-          <h2>Web Development</h2>
-          <p>
-            We deliver modern, user-friendly, and responsive websites. From
-            simple pages to dynamic e-commerce platforms, we will help your
-            businesses grow online.
-          </p>
-          <a href="#service-details" class="btn btn-primary">Learn more</a>
-          <div class="more-info mt-4">
-            <h6>MORE ABOUT WEB DEVELOPMENT</h6>
-            <ul class="list-unstyled">
-              <li>Responsive web design</li>
-              <li>E-commerce solutions</li>
-            </ul>
+      <div class="service-section">
+        <div class="row align-items-center">
+          <div class="col-md-6 order-md-2">
+            <h2>Web Development</h2>
+            <p>
+              We deliver modern, user-friendly, and responsive websites. From
+              simple pages to dynamic e-commerce platforms, we will help your
+              businesses grow online.
+            </p>
+            <a href="#" class="btn btn-enhanced" onclick="openServiceModal('web')">Learn More</a>
+            <div class="more-info">
+              <h6>More About Web Development</h6>
+              <ul class="list-unstyled">
+                <li>Responsive web design</li>
+                <li>E-commerce solutions</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6 text-center order-md-1">
-          <img
-            src="assets/posters/web dev.jpg"
-            alt="Web Development"
-            class="img-fluid"
-          />
+          <div class="col-md-6 text-center order-md-1">
+            <img
+              src="assets/posters/web dev.jpg"
+              alt="Web Development"
+              class="img-fluid"
+            />
+          </div>
         </div>
       </div>
 
       <!-- Section 3 -->
-      <div class="row align-items-center section-spacing">
-        <div class="col-md-6">
-          <h2>Digital Marketing</h2>
-          <p>
-            Boost your business with SEO, social media, and digital marketing
-            strategies. We help brands grow, engage customers, and maximize
-            visibility.
-          </p>
-          <a href="#service-details" class="btn btn-primary">Learn more</a>
-          <div class="more-info mt-4">
-            <h6>MORE ABOUT DIGITAL MARKETING</h6>
-            <ul class="list-unstyled">
-              <li>SEO optimization</li>
-              <li>Social media campaigns</li>
-            </ul>
+      <div class="service-section">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h2>Digital Marketing</h2>
+            <p>
+              Boost your business with SEO, social media, and digital marketing
+              strategies. We help brands grow, engage customers, and maximize
+              visibility.
+            </p>
+            <a href="#" class="btn btn-enhanced" onclick="openServiceModal('marketing')">Learn More</a>
+            <div class="more-info">
+              <h6>More About Digital Marketing</h6>
+              <ul class="list-unstyled">
+                <li>SEO optimization</li>
+                <li>Social media campaigns</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6 text-center">
-          <img
-            src="assets/posters/digital marketing.jpeg"
-            alt="Digital Marketing"
-            class="img-fluid"
-          />
+          <div class="col-md-6 text-center">
+            <img
+              src="assets/posters/digital marketing.jpeg"
+              alt="Digital Marketing"
+              class="img-fluid"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -168,21 +189,252 @@
             </p>
           </div>
           <div class="col-lg-4 text-lg-end">
-            <a href="#get-a-quote" class="btn btn-primary">Get a Quote</a>
-            <a href="#schedule-call" class="btn btn-secondary"
+            <a href="mailto:sandetechnologiesmw@gmail.com?subject=Project%20Quote%20Request" class="btn btn-primary">Get a Quote</a>
+            <a href="mailto:sandetechnologiesmw@gmail.com?subject=Schedule%20Consultation" class="btn btn-secondary"
               >Schedule a Call</a
             >
           </div>
         </div>
         <hr class="my-4" />
         <div class="text-center">
-          <p>&copy; 2024 Lithu. All rights reserved.</p>
+          <p>&copy; 2024 Sande Tech. All rights reserved.</p>
           <a href="#privacy-policy" class="text-white">Privacy Policy</a> |
           <a href="#terms" class="text-white">Terms of Service</a>
         </div>
       </div>
     </footer>
+
+    <!-- Service Pricing Modal -->
+    <div id="serviceModal" class="service-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Service Packages</h2>
+          <span class="close-btn" onclick="closeServiceModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="pricing-container" id="pricingContainer">
+            <!-- Pricing cards will be inserted here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Service Modal Script -->
+    <script>
+      const serviceData = {
+        app: {
+          title: "Mobile App Development Packages",
+          packages: [
+            {
+              name: "Basic App",
+              price: "$2,500",
+              description: "Perfect for simple apps and MVPs",
+              features: [
+                "Cross-platform app (iOS & Android)",
+                "Up to 5 screens/pages",
+                "Basic UI/UX design",
+                "App store submission",
+                "30 days support",
+                "Source code included"
+              ],
+              popular: false,
+              subject: "Basic App Development Package Inquiry"
+            },
+            {
+              name: "Professional App",
+              price: "$5,500",
+              description: "Feature-rich apps for growing businesses",
+              features: [
+                "Everything in Basic, plus:",
+                "Up to 15 screens/pages",
+                "Custom animations & interactions",
+                "API integration",
+                "Push notifications",
+                "Admin panel",
+                "90 days support"
+              ],
+              popular: true,
+              subject: "Professional App Development Package Inquiry"
+            },
+            {
+              name: "Enterprise App",
+              price: "$12,000",
+              description: "Complex apps with advanced features",
+              features: [
+                "Everything in Professional, plus:",
+                "Unlimited screens/pages",
+                "Real-time features",
+                "Advanced security",
+                "Multi-language support",
+                "Custom backend development",
+                "6 months support & maintenance"
+              ],
+              popular: false,
+              subject: "Enterprise App Development Package Inquiry"
+            }
+          ]
+        },
+        web: {
+          title: "Web Development Packages",
+          packages: [
+            {
+              name: "Starter Website",
+              price: "$800",
+              description: "Perfect for small businesses and portfolios",
+              features: [
+                "Up to 5 pages",
+                "Responsive design",
+                "Contact form",
+                "SEO optimization",
+                "1 month support",
+                "Free domain for 1 year"
+              ],
+              popular: false,
+              subject: "Starter Website Package Inquiry"
+            },
+            {
+              name: "Business Website",
+              price: "$1,800",
+              description: "Complete solution for growing businesses",
+              features: [
+                "Everything in Starter, plus:",
+                "Up to 15 pages",
+                "Content Management System",
+                "Blog functionality",
+                "Social media integration",
+                "Google Analytics setup",
+                "3 months support"
+              ],
+              popular: true,
+              subject: "Business Website Package Inquiry"
+            },
+            {
+              name: "E-commerce Website",
+              price: "$3,500",
+              description: "Full online store with payment integration",
+              features: [
+                "Everything in Business, plus:",
+                "Online store functionality",
+                "Payment gateway integration",
+                "Inventory management",
+                "Order tracking system",
+                "Customer accounts",
+                "6 months support & maintenance"
+              ],
+              popular: false,
+              subject: "E-commerce Website Package Inquiry"
+            }
+          ]
+        },
+        marketing: {
+          title: "Digital Marketing Packages",
+          packages: [
+            {
+              name: "Starter Marketing",
+              price: "$500/mo",
+              description: "Essential digital presence for small businesses",
+              features: [
+                "Social media management (2 platforms)",
+                "Basic SEO optimization",
+                "Monthly content creation (8 posts)",
+                "Google My Business setup",
+                "Monthly analytics report",
+                "Email support"
+              ],
+              popular: false,
+              subject: "Starter Marketing Package Inquiry"
+            },
+            {
+              name: "Growth Marketing",
+              price: "$1,200/mo",
+              description: "Comprehensive marketing for growing businesses",
+              features: [
+                "Everything in Starter, plus:",
+                "4 social media platforms",
+                "Advanced SEO & content marketing",
+                "Google Ads management",
+                "20 posts + 4 blog articles/month",
+                "Bi-weekly strategy calls",
+                "Priority support"
+              ],
+              popular: true,
+              subject: "Growth Marketing Package Inquiry"
+            },
+            {
+              name: "Enterprise Marketing",
+              price: "$2,500/mo",
+              description: "Full-scale marketing strategy and execution",
+              features: [
+                "Everything in Growth, plus:",
+                "Multi-platform advertising",
+                "Conversion rate optimization",
+                "Email marketing campaigns",
+                "Influencer collaboration",
+                "Custom landing pages",
+                "Dedicated account manager"
+              ],
+              popular: false,
+              subject: "Enterprise Marketing Package Inquiry"
+            }
+          ]
+        }
+      };
+
+      function openServiceModal(serviceType) {
+        const modal = document.getElementById('serviceModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const pricingContainer = document.getElementById('pricingContainer');
+        
+        const service = serviceData[serviceType];
+        modalTitle.textContent = service.title;
+        
+        pricingContainer.innerHTML = service.packages.map(pkg => `
+          <div class="pricing-card ${pkg.popular ? 'popular' : ''}">
+            ${pkg.popular ? '<div class="popular-badge">MOST POPULAR</div>' : ''}
+            <div class="package-header">
+              <h3>${pkg.name}</h3>
+              <div class="price">${pkg.price}</div>
+              <p class="description">${pkg.description}</p>
+            </div>
+            <div class="features">
+              <ul>
+                ${pkg.features.map(feature => `<li>${feature}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="package-footer">
+              <a href="mailto:sandetechnologiesmw@gmail.com?subject=${encodeURIComponent(pkg.subject)}&body=Hi%20Sande%20Tech%20Team,%0A%0AI'm%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package.%20Please%20send%20me%20more%20details.%0A%0AThank%20you!" 
+                 class="select-package-btn">Choose Package</a>
+            </div>
+          </div>
+        `).join('');
+        
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeServiceModal() {
+        const modal = document.getElementById('serviceModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        const modal = document.getElementById('serviceModal');
+        if (event.target === modal) {
+          closeServiceModal();
+        }
+      }
+
+      // Close modal on Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closeServiceModal();
+        }
+      });
+    </script>
   </body>
 </html>
