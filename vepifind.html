@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VepiFind - AI Job Search App | Find Your Dream Job in Malawi</title>
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <meta name="description" content="VepiFind is an AI-powered job search app for Malawi. Get instant job updates, generate cover letters, track applications, and apply directly from your phone. Download now!">
+    <meta name="keywords" content="VepiFind, job search app Malawi, job vacancies Malawi, AI cover letter generator, job application tracker, employment app, career app Malawi, job notifications">
+    <meta name="author" content="Sande Technologies">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.sandetechnologies.com/vepifind">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.sandetechnologies.com/vepifind">
+    <meta property="og:title" content="VepiFind - AI Job Search App | Your Career Companion">
+    <meta property="og:description" content="AI-powered job search app. Get instant job updates, generate cover letters, and apply directly from your phone.">
+    <meta property="og:image" content="https://www.sandetechnologies.com/assets/vepifind.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VepiFind - AI Job Search App">
+    <meta name="twitter:description" content="AI-powered job search app for Malawi. Find and apply for jobs instantly.">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Modern Design Styles -->
+    <style>
+      :root {
+        --vepifind-primary: #0056b3;
+        --vepifind-secondary: #00a8ff;
+        --vepifind-accent: #667eea;
+        --vepifind-dark: #1a1a1a;
+        --vepifind-light: #f8fafc;
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      
+      .hero-section {
+        background: linear-gradient(135deg, var(--vepifind-primary) 0%, var(--vepifind-secondary) 50%, var(--vepifind-accent) 100%);
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 80px 0;
+      }
+      
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        pointer-events: none;
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+      
+      .app-mockup {
+        position: relative;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+      
+      .floating-elements {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      
+      .floating-icon {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+      }
+      
+      .section-modern {
+        padding: 100px 0;
+        position: relative;
+      }
+      
+      .feature-card-modern {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 86, 179, 0.1);
+        height: 100%;
+      }
+      
+      .feature-card-modern:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 80px rgba(0, 86, 179, 0.15);
+      }
+      
+      .feature-card-modern .d-flex {
+        justify-content: flex-start !important;
+      }
+      
+      .feature-icon-modern {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--vepifind-primary), var(--vepifind-secondary));
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        margin-bottom: 24px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .section-title-modern {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--vepifind-primary), var(--vepifind-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .btn-modern {
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 1.1rem;
+      }
+      
+      .btn-primary-modern {
+        background: linear-gradient(135deg, var(--vepifind-primary), var(--vepifind-secondary));
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 86, 179, 0.3);
+      }
+      
+      .btn-primary-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(0, 86, 179, 0.4);
+        color: white;
+      }
+      
+      .btn-outline-modern {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+      }
+      
+      .btn-outline-modern:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        color: white;
+      }
+      
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 40px;
+      }
+      
+      @media (max-width: 768px) {
+        .stats-grid {
+          gap: 16px;
+        }
+      }
+      
+      .stat-item {
+        text-align: center;
+        color: white;
+      }
+      
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        display: block;
+      }
+      
+      .image-showcase {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      
+      .feature-image {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+      }
+      
+      .process-step {
+        text-align: center;
+        position: relative;
+      }
+      
+      .process-number {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--vepifind-primary), var(--vepifind-secondary));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0 auto 24px;
+        box-shadow: 0 10px 30px rgba(0, 86, 179, 0.3);
+      }
+      
+      .faq-item {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+      
+      .accordion-button {
+        background: white;
+        border: none;
+        font-weight: 600;
+        padding: 24px;
+        font-size: 1.1rem;
+      }
+      
+      .accordion-button:not(.collapsed) {
+        background: linear-gradient(135deg, var(--vepifind-primary), var(--vepifind-secondary));
+        color: white;
+      }
+      
+      .cta-section {
+        background: linear-gradient(135deg, var(--vepifind-dark) 0%, var(--vepifind-primary) 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .cta-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0, 168, 255, 0.1) 0%, transparent 70%);
+        animation: pulse 4s ease-in-out infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+      }
+      
+      .navbar-modern {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 86, 179, 0.1);
+      }
+      
+      @media (max-width: 768px) {
+        .section-title-modern {
+          font-size: 2.5rem;
+        }
+        
+        .hero-section {
+          min-height: 70vh;
+          padding: 60px 0;
+        }
+        
+        .section-modern {
+          padding: 60px 0;
+        }
+        
+        .hero-section .d-flex.flex-wrap {
+          justify-content: center;
+        }
+        
+        .app-mockup img {
+          max-width: 250px !important;
+        }
+        
+        .col-lg-6.text-center {
+          margin-top: 40px;
+        }
+        
+        .stat-number {
+          font-size: 1.8rem;
+        }
+        
+        .stat-item span:not(.stat-number) {
+          font-size: 0.9rem;
+        }
+        
+        footer .col-lg-4 {
+          text-align: center !important;
+          margin-top: 20px;
+        }
+        
+        footer .btn-modern {
+          margin-left: 0 !important;
+          margin-right: 8px;
+        }
+        
+        .image-showcase img {
+          max-width: 300px !important;
+        }
+        
+        .feature-card-modern .d-flex.align-items-center.justify-content-center {
+          justify-content: flex-start !important;
+        }
+        
+        .feature-card-modern.text-center {
+          text-align: center !important;
+        }
+        
+        .feature-card-modern.text-center h3 {
+          text-align: left !important;
+        }
+        
+        .feature-card-modern.text-center h4,
+        .feature-card-modern.text-center > p {
+          text-align: center !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-modern fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="home.html">
+          <img src="assets/sandetechnologies-500.png" class="navbar-logo" alt="Sande Technologies Logo" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+            <li class="nav-item"><a class="nav-link active" href="vepifind.html">VepiFind</a></li>
+            <li class="nav-item"><a class="nav-link" href="home.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="home.html#contact">Contact</a></li>
+          </ul>
+          <div class="ms-3">
+            <a href="assets/vepifind.apk" class="btn-modern btn-primary-modern" download>
+              <i class="bi bi-download"></i>
+              Download App
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="floating-elements">
+        <div class="floating-icon" style="top: 10%; left: 10%; width: 60px; height: 60px; animation-delay: 0s;">
+          <i class="bi bi-bell-fill" style="color: white; font-size: 1.5rem;"></i>
+        </div>
+        <div class="floating-icon" style="top: 20%; right: 15%; width: 80px; height: 80px; animation-delay: 2s;">
+          <i class="bi bi-lightning-charge-fill" style="color: white; font-size: 2rem;"></i>
+        </div>
+        <div class="floating-icon" style="bottom: 30%; left: 5%; width: 70px; height: 70px; animation-delay: 4s;">
+          <i class="bi bi-stars" style="color: white; font-size: 1.8rem;"></i>
+        </div>
+        <div class="floating-icon" style="bottom: 15%; right: 20%; width: 90px; height: 90px; animation-delay: 1s;">
+          <i class="bi bi-robot" style="color: white; font-size: 2.2rem;"></i>
+        </div>
+      </div>
+      
+      <div class="container hero-content">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 style="font-size: 4.5rem; font-weight: 900; color: white; margin-bottom: 24px; line-height: 1.1;">
+              VepiFind
+            </h1>
+            <h2 style="font-size: 1.8rem; color: white; margin-bottom: 32px; font-weight: 300;">
+              Your AI-Powered Career Companion for Malawi
+            </h2>
+            <p style="font-size: 1.2rem; color: white !important; margin-bottom: 48px; line-height: 1.8; opacity: 1;">
+              Revolutionary job search app that transforms how you find, apply for, and land your dream job. 
+              Get instant updates, AI-generated cover letters, and apply directly from your phone.
+            </p>
+            
+            <div class="d-flex flex-wrap gap-3 mb-5">
+              <a href="assets/vepifind.apk" class="btn-modern btn-primary-modern" download>
+                <i class="bi bi-download"></i>
+                Download Now
+              </a>
+              <!-- <a href="#features" class="btn-modern btn-outline-modern">
+                <i class="bi bi-play-circle"></i>
+                Watch Demo
+              </a> -->
+            </div>
+
+           <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-number">AI</span>
+                <span>Powered</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span>Free</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span>Job Updates</span>
+              </div>
+            </div> 
+          </div>
+          
+          <div class="col-lg-6 text-center">
+            <div class="app-mockup">
+              <img src="assets/vepifind.png" alt="VepiFind App" class="img-fluid" style="max-width: 400px; filter: brightness(0) invert(1) drop-shadow(0 30px 60px rgba(0,0,0,0.3));">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+      <!-- About Section -->
+      <section class="section-modern" style="background: var(--vepifind-light);">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <h2 class="section-title-modern" style="font-size: 3rem;">
+                What is VepiFind?
+              </h2>
+              <p style="font-size: 1.3rem; color: #666; margin-bottom: 32px; line-height: 1.7;">
+                VepiFind is an AI-powered mobile application designed to revolutionize the job search experience in Malawi.
+              </p>
+              <p style="font-size: 1.1rem; color: #777; margin-bottom: 24px;">
+                Say goodbye to tedious job applications and endless browsing. VepiFind brings the entire job application process to your fingertips, making it faster, smarter, and more efficient than ever before.
+              </p>
+              <p style="font-size: 1.1rem; color: #777; margin-bottom: 40px;">
+                With intelligent job matching, automated cover letter generation, and instant application capabilities, VepiFind is your ultimate career companion.
+              </p>
+              <a href="#features" class="btn-modern btn-primary-modern">
+                <i class="bi bi-arrow-down-circle"></i>
+                Explore Features
+              </a>
+            </div>
+            <div class="col-lg-6 text-center">
+              <div class="image-showcase">
+                <img src="assets/vepifind.png" alt="VepiFind App Icon" class="img-fluid" style="max-width: 500px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="section-modern" id="features">
+        <div class="container">
+          <h2 class="section-title-modern">Powerful Features</h2>
+          <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 80px;">
+            Discover how VepiFind transforms your job search experience
+          </p>
+          
+          <!-- Feature 1: Job Updates -->
+          <div class="row align-items-center mb-5">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+              <div class="feature-card-modern">
+                <div class="feature-icon-modern ">
+                  <i class="bi bi-bell-fill"></i>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 16px;">Real-Time Job Updates</h3>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Stay ahead of the competition with instant job notifications.</p>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Live updates from multiple sources</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Never miss an opportunity</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Curated job listings</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Daily fresh vacancies</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="image-showcase">
+                <img src="assets/vepifind/home_and_best_fit.png" alt="Job Updates Feed" class="feature-image">
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 2: AI Cover Letters -->
+          <div class="row align-items-center mb-5">
+            <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+              <div class="feature-card-modern">
+                <div class="feature-icon-modern">
+                  <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 16px;">AI Cover Letter Generator</h3>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Apply for jobs in seconds, not hours.</p>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Professional AI cover letters</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Apply directly in-app</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Customize for each position</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>One-tap application</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+              <div class="image-showcase">
+                <img src="assets/vepifind/cover_letter.png" alt="AI Cover Letter Generator" class="feature-image">
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 3: Smart Notifications -->
+          <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-filter-circle-fill"></i>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 16px;">Smart Job Notifications</h3>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 32px;">Get notified only about jobs that matter to you.</p>
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Set preferences (industry, location)</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Push notifications for matching jobs</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Filter by experience level</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert" style="background: rgba(0,86,179,0.1); border: none; border-radius: 16px; margin-top: 24px;">
+                  <i class="bi bi-lightbulb text-primary me-2"></i>
+                  <strong>Pro Tip:</strong> Fine-tune alerts per role to reduce noise and stay focused on what fits you best.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 4: Job Tracker -->
+          <div class="row align-items-center mb-5">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+              <div class="feature-card-modern">
+                <div class="feature-icon-modern">
+                  <i class="bi bi-list-check"></i>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 16px;">Application Tracker & Interview Prep</h3>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Stay organized and prepared for every opportunity.</p>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Track all applications</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Monitor application status</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>AI interview questions</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Follow-up reminders</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="image-showcase">
+                    <img src="assets/vepifind/track.png" alt="Job Application Tracker" class="feature-image">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="image-showcase">
+                    <img src="assets/vepifind/interview_prep.png" alt="Interview Preparation" class="feature-image">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 5: Best Fit Matching -->
+          <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+              <div class="feature-card-modern">
+                <div class="feature-icon-modern">
+                  <i class="bi bi-stars"></i>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 16px;">Best Fit Job Matching</h3>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">AI matches you with jobs tailored to your skills and experience.</p>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Smart algorithm analysis</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Personalized recommendations</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Match score for each job</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.2rem;"></i>
+                      <span>Save time, apply smarter</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+              <div class="image-showcase">
+                <img src="assets/vepifind/home_and_best_fit.png" alt="Best Fit Job Matching" class="feature-image">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Future Features -->
+      <section class="section-modern" style="background: var(--vepifind-light);">
+        <div class="container">
+          <h2 class="section-title-modern">Coming Soon</h2>
+          <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 80px;">
+            Exciting features in development to make VepiFind even more powerful
+          </p>
+          
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="feature-card-modern">
+                <div class="feature-icon-modern" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                  <i class="bi bi-file-earmark-person"></i>
+                </div>
+                <h4 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 16px;">AI CV Generator</h4>
+                <p style="font-size: 1.1rem; color: #666;">Create professional, ATS-friendly CVs in minutes. Choose from multiple templates and let AI optimize your resume for each job application.</p>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="feature-card-modern">
+                <div class="feature-icon-modern" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                  <i class="bi bi-send-check-fill"></i>
+                </div>
+                <h4 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 16px;">Apply for All</h4>
+                <p style="font-size: 1.1rem; color: #666;">Revolutionary feature that automatically applies to all jobs in your "Best Fit" list with one tap. Save hours of manual applications!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="section-modern">
+        <div class="container">
+          <h2 class="section-title-modern">How VepiFind Works</h2>
+          <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 80px;">
+            Simple, fast, and effective job searching in 4 easy steps
+          </p>
+          
+          <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+              <div class="process-step">
+                <div class="process-number">1</div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Download & Sign Up</h4>
+                <p style="color: #666;">Get the app and create your profile with your skills and preferences.</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="process-step">
+                <div class="process-number">2</div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Browse Jobs</h4>
+                <p style="color: #666;">Explore personalized job recommendations or browse all available positions.</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="process-step">
+                <div class="process-number">3</div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Apply Instantly</h4>
+                <p style="color: #666;">Generate cover letters and apply directly from your phone in seconds.</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="process-step">
+                <div class="process-number">4</div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Track & Prepare</h4>
+                <p style="color: #666;">Monitor your applications and prepare for interviews with AI assistance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose VepiFind -->
+      <section class="section-modern" style="background: var(--vepifind-light);">
+        <div class="container">
+          <h2 class="section-title-modern">Why Choose VepiFind?</h2>
+          <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 80px;">
+            The smartest way to advance your career in Malawi
+          </p>
+          
+          <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-phone-fill"></i>
+                </div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Mobile-First Design</h4>
+                <p style="color: #666;">Apply for jobs anytime, anywhere. No computer required. Everything you need is in your pocket.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-robot"></i>
+                </div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">AI-Powered Intelligence</h4>
+                <p style="color: #666;">Smart algorithms match you with the right jobs and help you create compelling applications.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-clock-history"></i>
+                </div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Save Time</h4>
+                <p style="color: #666;">Reduce application time from hours to seconds. Focus on preparing for interviews, not filling forms.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Increase Success Rate</h4>
+                <p style="color: #666;">AI-optimized applications and interview prep increase your chances of landing your dream job.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-shield-check"></i>
+                </div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Trusted & Secure</h4>
+                <p style="color: #666;">Your personal information is encrypted and secure. We respect your privacy.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="feature-card-modern text-center">
+                <div class="feature-icon-modern mx-auto">
+                  <i class="bi bi-geo-alt-fill"></i>
+                </div>
+                <h4 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px;">Made for Malawi</h4>
+                <p style="color: #666;">Built specifically for the Malawian job market with local employers and opportunities.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section section-modern text-center" style="color: white;">
+        <div class="container" style="position: relative; z-index: 2;">
+          <h2 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 24px;">Ready to Find Your Dream Job?</h2>
+          <p style="font-size: 1.3rem; margin-bottom: 48px; opacity: 0.9;">Join thousands of job seekers using VepiFind to accelerate their career journey.</p>
+          <a href="assets/vepifind.apk" class="btn-modern" style="background: white; color: var(--vepifind-primary); font-size: 1.2rem; padding: 20px 40px;" download>
+            <i class="bi bi-download"></i>
+            Download VepiFind Now
+          </a>
+          <p style="margin-top: 24px; opacity: 0.8;"><small>Available for Android • Launching Soon</small></p>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="section-modern">
+        <div class="container">
+          <h2 class="section-title-modern">Frequently Asked Questions</h2>
+          <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 80px;">
+            Everything you need to know about VepiFind
+          </p>
+          
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="accordion" id="faqAccordion">
+                <div class="faq-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                      Is VepiFind free to use?
+                    </button>
+                  </h2>
+                  <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="padding: 24px; font-size: 1.1rem; color: #666;">
+                      Yes! VepiFind is completely free to download and use. We want to make job searching accessible to everyone in Malawi.
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="faq-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                      What types of jobs are available on VepiFind?
+                    </button>
+                  </h2>
+                  <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="padding: 24px; font-size: 1.1rem; color: #666;">
+                      VepiFind features jobs across all industries including IT, healthcare, education, finance, retail, hospitality, and more. From entry-level to executive positions.
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="faq-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                      How does the AI cover letter generator work?
+                    </button>
+                  </h2>
+                  <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="padding: 24px; font-size: 1.1rem; color: #666;">
+                      Our AI analyzes the job description and your profile to create a personalized, professional cover letter. You can review, edit, and customize it before submitting.
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="faq-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                      Can I use VepiFind on iOS?
+                    </button>
+                  </h2>
+                  <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="padding: 24px; font-size: 1.1rem; color: #666;">
+                      Currently, VepiFind is available for Android devices. An iOS version is in development and will be released soon!
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="faq-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                      How often are new jobs posted?
+                    </button>
+                  </h2>
+                  <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="padding: 24px; font-size: 1.1rem; color: #666;">
+                      New jobs are posted daily! We aggregate listings from multiple sources and update them in real-time, so you'll always see the latest opportunities.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--vepifind-dark); color: white; padding: 60px 0 30px;">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <h3 style="font-size: 2rem; font-weight: 700; margin-bottom: 16px;">Have Questions About VepiFind?</h3>
+            <p style="font-size: 1.1rem; opacity: 0.8; margin-bottom: 32px;">
+              Contact us for more information about the app or to report any issues.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="mailto:sandetechnologiesmw@gmail.com?subject=VepiFind%20Inquiry" class="btn-modern btn-primary-modern" style="margin-bottom: 10px;">
+              <i class="bi bi-envelope"></i>
+              Contact Us
+            </a>
+            <a href="home.html" class="btn-modern" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); margin-left: 16px;">
+              <i class="bi bi-arrow-left"></i>
+              Back to Home
+            </a>
+          </div>
+        </div>
+        <hr style="border-color: rgba(255,255,255,0.2); margin: 40px 0;" />
+        <div class="text-center">
+          <p style="font-size: 1rem; opacity: 0.8; margin-bottom: 16px;">&copy; 2024 Sande Technologies. All rights reserved.</p>
+          <div>
+            <a href="vepifind-privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none; margin: 0 16px;">Privacy Policy</a>
+            <span style="color: rgba(255,255,255,0.4);">|</span>
+            <a href="vepifind-terms.html" style="color: rgba(255,255,255,0.8); text-decoration: none; margin: 0 16px;">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Navbar collapse on mobile script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        navLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+              navbarToggler.click();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
