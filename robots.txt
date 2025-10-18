@@ -1,0 +1,21 @@
+# robots.txt for Sande Technologies
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://www.sandetechnologies.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 5
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 5
