@@ -229,10 +229,16 @@
       .image-showcase {
         position: relative;
         border-radius: 24px;
-        overflow: hidden;
+        overflow: visible;
         box-shadow: 0 30px 100px rgba(0, 0, 0, 0.2);
         max-width: 400px;
         margin: 0 auto;
+      }
+      
+      .image-showcase img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
       }
       
       .feature-image {
