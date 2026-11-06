@@ -332,6 +332,10 @@ svg { flex: none; }
 /* ---------- contact ---------- */
 .contact { position: relative; overflow: hidden; margin-top: clamp(90px, 10vw, 140px); padding: 160px 24px 100px; isolation: isolate; }
 .horizon.small { top: 0; width: min(1500px, 180vw); }
+.planet { position: absolute; left: 0; top: 0; width: 100%; z-index: 1; display: block; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
+.horizon.small .planet { opacity: .38; }
+.contact .glass { background: rgba(9, 13, 30, .86); }
+.v-horizon .planet-fx { opacity: .6; }
 .contact .head { position: relative; z-index: 1; }
 .contact-grid { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: .8fr 1.2fr; gap: 18px; align-items: start; }
 .contact-list { list-style: none; margin: 0; padding: 8px 24px; }

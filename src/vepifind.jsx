@@ -153,7 +153,7 @@ function Page() {
             </ul>
           </div>
           <div className="v-visual">
-            <Horizon className="v-horizon" />
+            <Horizon className="v-horizon" band={0.45} />
             <div className="v-ring r1" /><div className="v-ring r2" />
             <div className="phone v-phone"><img src={sHome} alt="VepiFind home screen showing best-fit job matches" /></div>
             <Notifications />
@@ -224,7 +224,7 @@ function Page() {
       </section>
 
       <section className="contact v-cta" id="get" aria-labelledby="get-title">
-        <Horizon className="small" />
+        <Horizon className="small" band={0.62} />
         <div className="head center" data-reveal>
           <img className="v-cta-logo" src={vepiLogo} alt="" />
           <h2 id="get-title">Be first to get VepiFind.</h2>

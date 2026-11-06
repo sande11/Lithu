@@ -31,7 +31,7 @@ Headline: "We build our own products. / And we'll build yours." The second line 
 
 ## Signature: the hero showcase
 
-Centered headline over a glowing planet-horizon arc. Rising out of the arc is one product scene that shows all three ways of working:
+Centered headline over a slowly rotating dotted Earth (the planet on the horizon). Rising out of the arc is one product scene that shows all three ways of working:
 
 - the centre browser window is a client booking portal (agency work),
 - the left phone is VepiFind (our product, a real screenshot),
@@ -68,5 +68,6 @@ Every motion explains something; nothing loops for decoration except slow ambien
 - **Pointer:** the hero screen tilts slightly toward the cursor; glass cards show a soft light that follows the cursor; primary buttons get a light sweep; capability icons tip and glow.
 - **Feedback:** role checkboxes pop, the role count bumps, the enquiry type pill slides between options, and the message box glows when "Request this team" fills it.
 - **VepiFind page:** push-style notifications stack in the hero; the feature tour keeps one phone pinned while you scroll and cross-fades to the screen for each feature; "In development" cards have a slowly travelling gradient border; FAQ answers expand smoothly.
+- **Planet:** the horizon is a dotted Earth that turns once every two minutes (WebGL2 shader in `src/planet.jsx`, land from `src/landmask.js`). It is tilted so Africa rides the horizon; Lilongwe pulses, and arcs with travelling lights run to London, New York, Berlin, Dubai, Nairobi, Johannesburg, Lagos and Toronto. It is dimmed behind the contact form, pauses off screen, falls back to canvas dots without WebGL2, and is a still frame with reduced motion.
 - **Ambient:** a faint starfield drifts upward, the horizon glow breathes, phones float.
 - **Reduced motion:** everything is shown in its final state; no loops, no counting, no tilt.

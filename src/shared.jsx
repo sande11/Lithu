@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import mark from '../assets/icon-cropped.png';
+import { Planet } from './planet.jsx';
 
 export const EMAIL = 'sandetechnologiesmw@gmail.com';
 export const PHONE = '+265 996 534 912';
@@ -198,8 +199,8 @@ export function Starfield({ density = 0.00012 }) {
   return <canvas className="starfield" ref={ref} aria-hidden="true" />;
 }
 
-/* ---------- glowing planet-horizon arc ---------- */
-export const Horizon = ({ className = '' }) => <div className={`horizon ${className}`} aria-hidden="true"><div className="horizon-glow" /><div className="horizon-ring" /></div>;
+/* ---------- rotating planet on the horizon ---------- */
+export const Horizon = ({ className = '', band = 0.55 }) => <div className={`horizon ${className}`} aria-hidden="true"><div className="horizon-glow" /><div className="horizon-ring" /><Planet band={band} /></div>;
 
 export function initPage() {
   document.documentElement.classList.add('js');
