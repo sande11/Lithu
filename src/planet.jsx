@@ -136,13 +136,16 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
       fallback = L;
     };
 
+    // the overlay canvas starts above the globe so arcs can rise past its edge
+    let pad = 0;
     const resize = () => {
-      const w = cFx.clientWidth, h = cFx.clientHeight;
+      const w = cGL.clientWidth, h = cGL.clientHeight;
       if (w === W && h === H) return false;
-      W = w; H = h; R = W / 2;
+      W = w; H = h; R = W / 2; pad = cFx.clientHeight - H;
       dpr = Math.min(window.devicePixelRatio || 1, W > 1200 ? 1.25 : 1.75);
-      for (const c of [cGL, cFx]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
-      fx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cGL.width = Math.round(W * dpr); cGL.height = Math.round(H * dpr);
+      cFx.width = Math.round(W * dpr); cFx.height = Math.round((H + pad) * dpr);
+      fx.setTransform(dpr, 0, 0, dpr, 0, pad * dpr);
       if (G) G.gl.viewport(0, 0, cGL.width, cGL.height); else buildFallback();
       return true;
     };
@@ -177,7 +180,7 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
       } else drawFallback(cs, sn);
 
       // arcs, cities and Lilongwe on the 2D overlay
-      fx.clearRect(0, 0, W, H);
+      fx.clearRect(0, -pad, W, H + pad);
       fx.lineWidth = 1.1; fx.lineCap = 'round';
       for (const a of arcs) {
         const P = a.pts.map(([x, y, z]) => proj(x, y, z, cs, sn));
@@ -209,7 +212,7 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
 
     resize(); frame(performance.now());
     const ro = new ResizeObserver(() => { if (resize() && (reduce || !visible)) frame(performance.now()); });
-    ro.observe(cFx);
+    ro.observe(cGL);
     const io = new IntersectionObserver(([e]) => {
       const was = visible; visible = e.isIntersecting;
       if (visible && !was && !reduce) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
@@ -217,9 +220,9 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
     io.observe(cFx);
     return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
   }, [band, speed, tilt]);
-  const style = { width: '100%', height: `${band * 100}%` };
+  const FX_PAD = 0.1; // headroom above the globe for arcs, as a fraction of its diameter
   return <>
-    <canvas className="planet" ref={glRef} style={style} aria-hidden="true" />
-    <canvas className="planet planet-fx" ref={fxRef} style={style} aria-hidden="true" />
+    <canvas className="planet" ref={glRef} style={{ width: '100%', height: `${band * 100}%` }} aria-hidden="true" />
+    <canvas className="planet planet-fx" ref={fxRef} style={{ width: '100%', top: `-${FX_PAD * 100}%`, height: `${(band + FX_PAD) * 100}%` }} aria-hidden="true" />
   </>;
 }

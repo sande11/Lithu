@@ -196,8 +196,10 @@ function Page() {
           <h2 id="how-title">Four steps from download to interview</h2>
         </div>
         <ol className="steps" data-reveal="steps">
-          <span className="steps-line" aria-hidden="true" />
-          {howSteps.map(([t, d], i) => <li key={t} className="glass" data-spot style={{ '--i': i }}><span className="step-n">{i + 1}</span><h3>{t}</h3><p>{d}</p></li>)}
+          {howSteps.map(([t, d], i) => <li key={t} style={{ '--i': i }}>
+            <div className="step-top" aria-hidden="true"><span className="step-n">{i + 1}</span>{i < howSteps.length - 1 && <span className="step-link"><i /></span>}</div>
+            <div className="step-card glass" data-spot><h3>{t}</h3><p>{d}</p></div>
+          </li>)}
         </ol>
       </section>
 
