@@ -87,7 +87,7 @@
 .faq-item button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; border: 0; background: none; text-align: left; font: 600 17px/1.35 var(--display); letter-spacing: -.015em; position: relative; z-index: 1; }
 .faq-sign { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--stroke-2); flex: none; transition: transform .35s cubic-bezier(.2, .8, .2, 1), background .3s, color .3s; }
 .faq-sign svg { width: 16px; }
-.faq-item.on .faq-sign { transform: rotate(45deg); background: var(--brand); color: #031026; border-color: transparent; }
+.faq-item.on .faq-sign { transform: rotate(45deg); background: #eef2fa; color: #060a18; border-color: transparent; }
 .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2, .8, .2, 1); }
 .faq-item.on .faq-a { grid-template-rows: 1fr; }
 .faq-a > div { overflow: hidden; }

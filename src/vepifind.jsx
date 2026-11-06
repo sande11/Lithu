@@ -14,7 +14,7 @@ import { EMAIL, Icon, SiteHeader, SiteFooter, useReveal, useSpotlight, usePointe
 // Set this to the APK or Play Store URL when the app is ready to download.
 const DOWNLOAD_URL = null;
 
-const launchMail = `mailto:${EMAIL}?subject=${encodeURIComponent('VepiFind launch updates')}&body=${encodeURIComponent('Hi Sande Tech,\n\nPlease let me know when VepiFind is available to download.\n\nThanks!')}`;
+const launchMail = `mailto:${EMAIL}?subject=${encodeURIComponent('VepiFind launch updates')}&body=${encodeURIComponent('Hi Sande Technologies,\n\nPlease let me know when VepiFind is available to download.\n\nThanks!')}`;
 const askMail = `mailto:${EMAIL}?subject=${encodeURIComponent('VepiFind question')}`;
 
 const features = [
@@ -131,13 +131,13 @@ function Page() {
   useSpotlight();
 
   return <>
-    <SiteHeader home="/" links={[['Features', '#features'], ['How it works', '#how'], ['FAQ', '#faq'], ['Sande Tech', '/']]} cta={['Get launch updates', '#get']} />
+    <SiteHeader home="/" links={[['Features', '#features'], ['How it works', '#how'], ['FAQ', '#faq'], ['Sande Technologies', '/']]} cta={['Get launch updates', '#get']} />
     <main>
       <section className="v-hero" ref={heroRef} id="top">
         <Starfield />
         <div className="v-hero-inner">
           <div className="v-copy">
-            <a className="announce seq" style={{ '--d': 0 }} href="/"><span className="v-badge"><img src={vepiLogo} alt="" /></span>VepiFind by Sande Tech <Icon n="chev" /></a>
+            <a className="announce seq" style={{ '--d': 0 }} href="/"><span className="v-badge"><img src={vepiLogo} alt="" /></span>VepiFind by Sande Technologies <Icon n="chev" /></a>
             <h1><span className="line seq" style={{ '--d': 1 }}><span>Find the right job in Malawi.</span></span><span className="line grad seq" style={{ '--d': 2 }}><span>Apply in minutes, not hours.</span></span></h1>
             <p className="hero-sub seq" style={{ '--d': 3 }}>VepiFind brings job listings from multiple sources into one feed, matches them to your profile, and helps you write cover letters, track applications and prepare for interviews. All from your phone.</p>
             <div className="hero-actions seq" style={{ '--d': 4 }}>
@@ -204,7 +204,7 @@ function Page() {
       <section className="section" aria-labelledby="why-title">
         <div className="head split" data-reveal>
           <div><p className="eyebrow">Why VepiFind</p><h2 id="why-title">The faster way to look for work</h2></div>
-          <p>Built by Sande Tech in Lilongwe for people looking for work in Malawi.</p>
+          <p>Built by Sande Technologies in Lilongwe for people looking for work in Malawi.</p>
         </div>
         <div className="why">
           {why.map(([ic, t, d], i) => <article className="cap glass" key={t} data-reveal data-spot style={{ '--d': i % 3 }}>
@@ -238,7 +238,7 @@ function Page() {
         </div>
       </section>
     </main>
-    <SiteFooter links={[['Sande Tech', '/'], ['Our products', '/#products'], ['Privacy policy', '/vepifind-privacy-policy.html'], ['Terms of service', '/vepifind-terms.html'], ['Contact', '/#contact']]} />
+    <SiteFooter links={[['Sande Technologies', '/'], ['Our products', '/#products'], ['Privacy policy', '/vepifind-privacy-policy.html'], ['Terms of service', '/vepifind-terms.html'], ['Contact', '/#contact']]} />
   </>;
 }
 

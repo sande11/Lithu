@@ -90,10 +90,10 @@ function ChatPhone() {
   return <div className="phone phone-chat" aria-hidden="true">
     <div className="chat">
       <div className="chat-top"><b>#</b><div><strong>product-team</strong><span>Your workspace</span></div></div>
-      {step >= 1 && <div className="msg pop"><i className="av a1">ME</i><div><small>Mobile engineer · Sande Tech</small><p>Build 1.4 is on TestFlight. Release notes in the ticket.</p></div></div>}
+      {step >= 1 && <div className="msg pop"><i className="av a1">ME</i><div><small>Mobile engineer · Sande Technologies</small><p>Build 1.4 is on TestFlight. Release notes in the ticket.</p></div></div>}
       {step >= 2 && <div className="msg mine pop"><div><small>You</small><p>Nice. Can we demo it on Friday?</p></div></div>}
       {step === 3 && <div className="msg pop"><i className="av a2">QA</i><div className="typing"><span /><span /><span /></div></div>}
-      {step >= 4 && <div className="msg pop"><i className="av a2">QA</i><div><small>QA engineer · Sande Tech</small><p>Regression suite passed. No blockers.</p></div></div>}
+      {step >= 4 && <div className="msg pop"><i className="av a2">QA</i><div><small>QA engineer · Sande Technologies</small><p>Regression suite passed. No blockers.</p></div></div>}
       {step >= 5 && <div className="standup pop"><span className="live" />Daily standup, 09:00<em>Join</em></div>}
     </div>
   </div>;
@@ -145,7 +145,7 @@ function App() {
   const [flash, setFlash] = useState(false);
   const heroRef = useRef(null);
 
-  useEffect(() => { document.title = 'Sande Tech — Software products, remote tech teams and agency builds'; }, []);
+  useEffect(() => { document.title = 'Sande Technologies — Software products, remote tech teams and agency builds'; }, []);
   useScrollVar(heroRef);
   usePointerTilt(heroRef);
   useReveal();
@@ -179,7 +179,7 @@ function App() {
         <div className="hero-copy">
           <a className="announce seq" style={{ '--d': 0 }} href="/vepifind.html"><span className="announce-new">Now building</span>VepiFind, an AI career app <Icon n="chev" /></a>
           <h1><span className="line seq" style={{ '--d': 1 }}><span>We build our own products.</span></span><span className="line grad seq" style={{ '--d': 2 }}><span>And we’ll build yours.</span></span></h1>
-          <p className="hero-sub seq" style={{ '--d': 3 }}>Sande Tech is a software development company in Lilongwe, Malawi. We ship our own apps, and the same team builds for clients: as a tech agency delivering your project end to end, or as a remote engineering team working inside your company.</p>
+          <p className="hero-sub seq" style={{ '--d': 3 }}>Sande Technologies is a software development company in Lilongwe, Malawi. We ship our own apps, and the same team builds for clients: as a tech agency delivering your project end to end, or as a remote engineering team working inside your company.</p>
           <div className="hero-actions seq" style={{ '--d': 4 }}>
             <a className="btn btn-primary" href="#contact">Start a project <Icon n="arrow" /></a>
             <a className="btn btn-glass" href="#team">Hire a remote team</a>

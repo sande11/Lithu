@@ -10,7 +10,7 @@ colors:
   stroke: "rgba(160,185,255,.13)"
   text: "#EEF3FF"
   muted: "#95A3C6"
-  blue: "#2F7BFF"     # primary actions (brightened logo blue)
+  blue: "#2F7BFF"     # accents, progress, chart (brightened logo blue)
   cyan: "#3FD0FF"     # highlights, links, glow (logo gradient end)
   violet: "#7A6BFF"   # secondary chart/glow only
   ok: "#3DDC97"       # live / in development status
@@ -21,7 +21,7 @@ typography:
 
 ## Brand position
 
-Sande Tech is a software development company (Lilongwe, Malawi) that works three ways:
+Sande Technologies is a software development company (Lilongwe, Malawi) that works three ways:
 
 1. **Our products**: VepiFind, Belo and Hospr, built and run in-house.
 2. **Remote tech team**: our engineers working inside a client's company.
@@ -35,7 +35,7 @@ Centered headline over a glowing planet-horizon arc. Rising out of the arc is on
 
 - the centre browser window is a client booking portal (agency work),
 - the left phone is VepiFind (our product, a real screenshot),
-- the right phone is a team chat with Sande Tech engineers (remote team).
+- the right phone is a team chat with Sande Technologies engineers (remote team).
 
 Glass labels with connector lines name each one. On scroll, the dashboard tilts from 20° to flat and the horizon brightens (`--p` 0→1). Reduced motion shows it flat.
 
@@ -45,6 +45,7 @@ Glass labels with connector lines name each one. On scroll, the dashboard tilts 
 - Glass cards (translucent fill, 1px cool stroke, 24–28px radius). Mode cards each carry a small live-looking visual: app tiles, timezone overlap, project milestones.
 - Bento grid for agency capabilities, step cards joined by a rail for the process.
 - The contact section repeats the horizon arc.
+- Buttons are flat: primary is solid off-white (#EEF2FA) with dark text, secondary is a thin outline. No glow, no gradient, no shine. Selected states (enquiry type, role ticks, open FAQ) use the same off-white. Light and glow belong to the scenery, not the controls.
 
 ## Don'ts
 

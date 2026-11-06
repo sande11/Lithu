@@ -35,7 +35,7 @@ const P = {
 export const Icon = ({ n, className }) => <svg className={className} viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{P[n]}</svg>;
 
 export function Logo() {
-  return <span className="logo"><span className="logo-chip"><img src={mark} alt="" /></span><span className="logo-word">Sande Tech</span></span>;
+  return <span className="logo"><span className="logo-chip"><img src={mark} alt="" /></span><span className="logo-word">Sande Technologies</span></span>;
 }
 
 /* ---------- header with scroll state + progress bar ---------- */
@@ -61,7 +61,7 @@ export function SiteHeader({ links, cta, home = '#top' }) {
   const close = () => setOpen(false);
   return <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
     <div className="header-inner">
-      <a href={home} aria-label="Sande Tech home" onClick={close}><Logo /></a>
+      <a href={home} aria-label="Sande Technologies home" onClick={close}><Logo /></a>
       <button className="menu-toggle" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(!open)}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">{open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 8h16M4 16h16" />}</svg>
       </button>
@@ -77,10 +77,10 @@ export function SiteHeader({ links, cta, home = '#top' }) {
 export function SiteFooter({ links }) {
   return <footer className="footer">
     <div className="footer-top" data-reveal>
-      <a href="/" aria-label="Sande Tech home"><Logo /></a>
+      <a href="/" aria-label="Sande Technologies home"><Logo /></a>
       <nav aria-label="Footer">{links.map(([l, h]) => <a key={h} href={h}>{l}</a>)}</nav>
     </div>
-    <div className="footer-word" data-reveal="word" aria-hidden="true">Sande Tech</div>
+    <div className="footer-word" data-reveal="word" aria-hidden="true">Sande Technologies</div>
     <p className="footer-legal">© {new Date().getFullYear()} Sande Technologies. Software products, remote tech teams and agency builds.</p>
   </footer>;
 }
