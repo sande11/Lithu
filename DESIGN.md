@@ -41,7 +41,7 @@ Glass labels with connector lines name each one. On scroll, the dashboard tilts 
 
 ## Supporting patterns
 
-- Tech-stack strip, then two crossing ribbons with the service words scrolling.
+- Tech-stack strip, then a live working-hours band: the time in Lilongwe (open/closed), the visitor's own time, and how many hours of their 08:00–17:00 overlap ours, drawn on a 24-hour bar in their local time.
 - Glass cards (translucent fill, 1px cool stroke, 24–28px radius). Mode cards each carry a small live-looking visual: app tiles, timezone overlap, project milestones.
 - Bento grid for agency capabilities, step cards joined by a rail for the process.
 - The contact section repeats the horizon arc.
@@ -68,5 +68,5 @@ Every motion explains something; nothing loops for decoration except slow ambien
 - **Pointer:** the hero screen tilts slightly toward the cursor; glass cards show a soft light that follows the cursor; primary buttons get a light sweep; capability icons tip and glow.
 - **Feedback:** role checkboxes pop, the role count bumps, the enquiry type pill slides between options, and the message box glows when "Request this team" fills it.
 - **VepiFind page:** push-style notifications stack in the hero; the feature tour keeps one phone pinned while you scroll and cross-fades to the screen for each feature; "In development" cards have a slowly travelling gradient border; FAQ answers expand smoothly.
-- **Ambient:** a faint starfield drifts upward, the horizon glow breathes, phones float, the ribbons scroll (paused on hover).
+- **Ambient:** a faint starfield drifts upward, the horizon glow breathes, phones float.
 - **Reduced motion:** everything is shown in its final state; no loops, no counting, no tilt.

@@ -10,7 +10,6 @@ import hosprLogo from '../assets/posters/hospr.png';
 import { EMAIL, PHONE, Icon, SiteHeader, SiteFooter, useReveal, useSpotlight, usePointerTilt, useScrollVar, CountUp, Starfield, Horizon, prefersReducedMotion, initPage } from './shared.jsx';
 
 const stack = ['Flutter', 'Swift', 'Kotlin', 'React', 'Next.js', 'Node.js', 'Python', 'PostgreSQL', 'Firebase', 'AWS'];
-const ribbon = ['Mobile apps', 'Web platforms', 'Custom software', 'AI & automation', 'Product design', 'Remote engineers', 'Cloud & support'];
 
 const roles = [
   ['Mobile engineer', 'iOS, Android and cross-platform apps'],
@@ -113,6 +112,75 @@ function Showcase() {
   </div>;
 }
 
+/* ---------- live working-hours band ----------
+   Our office hours are 08:00–17:00 CAT (UTC+2), Monday to Friday.
+   We compare them with the visitor's own 08:00–17:00 to show the shared hours. */
+const OUR_START_UTC = 6, OUR_END_UTC = 15;
+const fmtTime = (d, tz) => new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, ...(tz ? { timeZone: tz } : {}) }).format(d);
+const tzOffsetHours = (d, tz) => {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(d).map((p) => [p.type, p.value]));
+  const asUtc = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute);
+  return Math.round((asUtc - Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes())) / 36e5 * 4) / 4;
+};
+// Our working window expressed on the visitor's local 24h day, split if it wraps midnight.
+const ourWindowLocal = (off) => {
+  const a = ((OUR_START_UTC + off) % 24 + 24) % 24, b = a + (OUR_END_UTC - OUR_START_UTC);
+  return b <= 24 ? [[a, b]] : [[a, 24], [0, b - 24]];
+};
+const overlapHours = (wins) => wins.reduce((sum, [a, b]) => sum + Math.max(0, Math.min(b, 17) - Math.max(a, 8)), 0);
+
+function TimeBand() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => { const t = setInterval(() => setNow(new Date()), 20000); return () => clearInterval(t); }, []);
+  const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  const city = userTz.split('/').pop().replace(/_/g, ' ');
+  const userOff = tzOffsetHours(now, userTz);
+  const ourOff = 2;
+  const ours = ourWindowLocal(userOff);
+  const shared = overlapHours(ours);
+  const sameZone = Math.abs(userOff - ourOff) < .01;
+  const utcH = now.getUTCHours() + now.getUTCMinutes() / 60;
+  const lilongweDay = new Date(now.getTime() + ourOff * 36e5).getUTCDay();
+  const open = lilongweDay >= 1 && lilongweDay <= 5 && utcH >= OUR_START_UTC && utcH < OUR_END_UTC;
+  const opensMonday = lilongweDay === 6 || lilongweDay === 0 || (lilongweDay === 5 && utcH >= OUR_END_UTC);
+  const nowLocalH = ((utcH + userOff) % 24 + 24) % 24;
+  const pct = (h) => `${(h / 24) * 100}%`;
+  return <section className="timeband" aria-labelledby="tb-title">
+    <div className="tb-top" data-reveal>
+      <div>
+        <p className="eyebrow">Working hours</p>
+        <h2 id="tb-title">Our working day, next to yours.</h2>
+      </div>
+      <p>Monday to Friday, 08:00–17:00 Central Africa Time (UTC+2). The times below update live for where you are.</p>
+    </div>
+    <div className="tb glass" data-reveal data-spot style={{ '--d': 1 }}>
+      <div className="tb-cell">
+        <span className={`tb-status ${open ? 'open' : ''}`}><i />{open ? 'Open now' : `Closed · opens ${opensMonday ? 'Monday ' : ''}08:00 CAT`}</span>
+        <strong className="tb-time">{fmtTime(now, 'Africa/Blantyre')}</strong>
+        <small>Lilongwe (CAT, UTC+2)</small>
+      </div>
+      <div className="tb-cell">
+        <span className="tb-status muted"><i />Your time</span>
+        <strong className="tb-time">{fmtTime(now, userTz)}</strong>
+        <small>{city}</small>
+      </div>
+      <div className="tb-cell tb-wide">
+        <div className="tb-head">
+          <strong className="tb-time">{sameZone ? '9 h' : shared > 0 ? `${shared % 1 ? shared.toFixed(1) : shared} h` : 'Overnight'}</strong>
+          <small>{sameZone ? 'We share your time zone' : shared > 0 ? 'Of your working day overlaps ours, Monday to Friday' : 'We work while you sleep: hand over at night, review in the morning'}</small>
+        </div>
+        <div className="tb-track" aria-hidden="true">
+          <span className="tb-yours" style={{ left: pct(8), width: pct(9) }} />
+          {ours.map(([a, b], i) => <span key={i} className="tb-ours" style={{ left: pct(a), width: pct(b - a) }} />)}
+          <span className="tb-now" style={{ left: pct(nowLocalH) }} />
+        </div>
+        <div className="tb-scale" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+        <div className="tb-legend" aria-hidden="true"><span><i className="y" />Your 08:00–17:00</span><span><i className="o" />Our 08:00–17:00 CAT</span></div>
+      </div>
+    </div>
+  </section>;
+}
+
 /* ---------- mode visuals (animate when their card scrolls in) ---------- */
 const ModeProducts = () => <div className="mv mv-products" aria-hidden="true">
   <div className="app-row">
@@ -193,10 +261,7 @@ function App() {
         <div className="stack-row">{stack.map((s, i) => <span key={s} data-reveal style={{ '--d': i }}>{s}</span>)}</div>
       </section>
 
-      <div className="ribbons" aria-hidden="true">
-        <div className="ribbon r-back"><div className="track">{[...ribbon, ...ribbon, ...ribbon].map((w, i) => <span key={i}>{w}<i>✦</i></span>)}</div></div>
-        <div className="ribbon r-front"><div className="track">{[...ribbon, ...ribbon, ...ribbon].map((w, i) => <span key={i}>{w}<i>✦</i></span>)}</div></div>
-      </div>
+      <TimeBand />
 
       <section className="section" aria-labelledby="modes-title">
         <div className="head center" data-reveal>
