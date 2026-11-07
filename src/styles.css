@@ -332,8 +332,11 @@ svg { flex: none; }
 .steps p { color: var(--muted); font-size: 15.5px; }
 
 /* ---------- contact ---------- */
-.contact { position: relative; overflow-x: clip; margin-top: clamp(60px, 7vw, 100px); padding: 260px 24px 100px; isolation: isolate; }
-.horizon.small { top: 110px; width: min(1500px, 180vw); }
+.contact { position: relative; margin-top: clamp(60px, 7vw, 100px); padding: 260px 24px 100px; isolation: isolate; }
+/* the sky frame clips the globe at the sides and bottom (so it never spills into the footer or
+   lengthens the page) but starts 400px above the section so the glow can rise into the gap */
+.contact-sky { position: absolute; inset: -400px 0 0 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.horizon.small { top: 510px; width: min(1500px, 180vw); }
 .planet { position: absolute; left: 0; top: 0; width: 100%; z-index: 1; display: block; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
 .horizon.small .planet { opacity: .38; }
 .planet-fx { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 55%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 55%, transparent); }
@@ -370,11 +373,11 @@ form .btn { justify-self: start; }
 .form-status.ok { background: rgba(61, 220, 151, .1); color: #9df0c8; border: 1px solid rgba(61, 220, 151, .3); }
 
 /* ---------- footer ---------- */
-.footer { border-top: 1px solid var(--stroke); padding: 48px 24px 28px; overflow: hidden; }
+.footer { position: relative; z-index: 1; background: var(--bg); border-top: 1px solid var(--stroke); padding: 48px 24px 28px; overflow: hidden; }
 .footer-top { max-width: var(--wrap); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
 .footer-top nav { display: flex; flex-wrap: wrap; gap: 6px 24px; color: var(--muted); font-size: 15px; }
 .footer-top nav a:hover { color: #fff; }
-.footer-word { text-align: center; font: 700 clamp(30px, 8.6vw, 150px)/.95 var(--display); letter-spacing: -.06em; margin: 40px 0 0; color: transparent; background: linear-gradient(180deg, rgba(110, 160, 255, .35), rgba(3, 5, 13, 0) 85%); -webkit-background-clip: text; background-clip: text; white-space: nowrap; user-select: none; }
+.footer-word { text-align: center; font: 700 clamp(30px, 8.6vw, 150px)/.95 var(--display); letter-spacing: -.06em; margin: 40px 0 0; color: transparent; background: linear-gradient(180deg, rgba(150, 190, 255, .6), rgba(80, 120, 220, .12) 90%); -webkit-background-clip: text; background-clip: text; white-space: nowrap; user-select: none; }
 .footer-legal { max-width: var(--wrap); margin: 8px auto 0; color: var(--dim); font-size: 14px; }
 
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
@@ -558,7 +561,7 @@ textarea.flash { animation: flash 1.6s ease; }
   .row, .seg > div { grid-template-columns: 1fr; }
   .seg-thumb { width: auto; right: 4px; bottom: auto; height: calc((100% - 16px) / 3); transform: translateY(calc(var(--n, 0) * (100% + 4px))); }
   .contact { padding-top: 190px; }
-  .horizon.small { top: 80px; }
+  .horizon.small { top: 480px; }
   .btn { white-space: normal; text-align: center; }
 }
 

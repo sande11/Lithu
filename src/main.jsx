@@ -365,7 +365,7 @@ function App() {
       </section>
 
       <section className="contact" id="contact" aria-labelledby="contact-title">
-        <Horizon className="small" band={0.62} />
+        <div className="contact-sky" aria-hidden="true"><Horizon className="small" band={0.62} /></div>
         <div className="head center" data-reveal>
           <h2 id="contact-title">Tell us what you need built.</h2>
           <p>We reply within one working day with next steps, usually a short call.</p>

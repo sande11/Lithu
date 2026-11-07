@@ -226,7 +226,7 @@ function Page() {
       </section>
 
       <section className="contact v-cta" id="get" aria-labelledby="get-title">
-        <Horizon className="small" band={0.62} />
+        <div className="contact-sky" aria-hidden="true"><Horizon className="small" band={0.62} /></div>
         <div className="head center" data-reveal>
           <img className="v-cta-logo" src={vepiLogo} alt="" />
           <h2 id="get-title">Be first to get VepiFind.</h2>
