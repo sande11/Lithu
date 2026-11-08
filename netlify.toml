@@ -1,0 +1,134 @@
+# Netlify configuration for sandetechnologies.com
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# ---------------------------------------------------------------------------
+# Redirects (301 = permanent: search engines move rankings to the new address)
+# ---------------------------------------------------------------------------
+
+# www -> main domain. Netlify also does this once sandetechnologies.com is set
+# as the primary domain; this rule makes it explicit.
+[[redirects]]
+  from = "https://www.sandetechnologies.com/*"
+  to = "https://sandetechnologies.com/:splat"
+  status = 301
+  force = true
+
+# Old static pages -> new pages
+[[redirects]]
+  from = "/home.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services.html"
+  to = "/services/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/products.html"
+  to = "/products/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vepifind.html"
+  to = "/products/vepifind/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vepifind"
+  to = "/products/vepifind/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vepifind-privacy-policy.html"
+  to = "/products/vepifind/privacy-policy/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vepifind-privacy-policy"
+  to = "/products/vepifind/privacy-policy/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vepifind-terms.html"
+  to = "/products/vepifind/terms/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vepifind-terms"
+  to = "/products/vepifind/terms/"
+  status = 301
+  force = true
+
+# Short, memorable addresses people may type or share
+[[redirects]]
+  from = "/web-design"
+  to = "/web-development/"
+  status = 301
+
+[[redirects]]
+  from = "/app-development"
+  to = "/mobile-app-development/"
+  status = 301
+
+[[redirects]]
+  from = "/remote-developers"
+  to = "/hire-remote-developers/"
+  status = 301
+
+[[redirects]]
+  from = "/outsourcing"
+  to = "/software-development-outsourcing-africa/"
+  status = 301
+
+[[redirects]]
+  from = "/nearshore-developers"
+  to = "/software-development-outsourcing-africa/#nearshore"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/products/vepifind/privacy-policy/"
+  status = 301
+
+# Anything else that doesn't exist gets the custom 404 page automatically (dist/404.html).
+# Use status = 302 only for temporary moves (e.g. a page under maintenance).
+
+# ---------------------------------------------------------------------------
+# Headers
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    # If you add analytics or other third-party scripts later, add their domains here.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self' mailto:; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+
+# Built files have content hashes in their names, so they can be cached for a year.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

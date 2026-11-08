@@ -53,11 +53,14 @@ No fake testimonials, client logos or company stats. Dashboard numbers live only
 
 ## Pages
 
-- `index.html` → `src/main.jsx` (home)
-- `vepifind.html` → `src/vepifind.jsx` + `src/vepifind.css` (product page)
-- `src/shared.jsx` holds the header, footer, logo, icons and all motion hooks; `src/styles.css` is shared by both pages.
-- `vite.config.js` builds all pages, including the existing privacy and terms pages, into `dist/`.
-- VepiFind download: set `DOWNLOAD_URL` at the top of `src/vepifind.jsx` and every "Get launch updates" button becomes "Download for Android".
+The site is a pre-rendered multi-page React site (see `SEO.md`).
+
+- `src/routes.js`: every page's address, title, description and breadcrumbs.
+- `src/pages/*.jsx`: page components. `src/sections.jsx`: shared sections (hero showcase, services grid, products, team builder, process, FAQ, contact). `src/shared.jsx`: header, footer, breadcrumbs, icons, motion hooks.
+- `src/content/`: service page copy, FAQs, VepiFind legal text.
+- `scripts/prerender.mjs`: writes one HTML file per route plus `sitemap.xml` and `robots.txt`.
+- VepiFind download: set `DOWNLOAD_URL` at the top of `src/pages/VepiFind.jsx` and every "Get launch updates" button becomes "Download for Android".
+- Scroll reveals only hide content below the first screen (class `rv`), so pre-rendered content is never hidden on load.
 
 ## Motion
 
@@ -68,6 +71,6 @@ Every motion explains something; nothing loops for decoration except slow ambien
 - **Pointer:** the hero screen tilts slightly toward the cursor; glass cards show a soft light that follows the cursor; primary buttons get a light sweep; capability icons tip and glow.
 - **Feedback:** role checkboxes pop, the role count bumps, the enquiry type pill slides between options, and the message box glows when "Request this team" fills it.
 - **VepiFind page:** push-style notifications stack in the hero; the feature tour keeps one phone pinned while you scroll and cross-fades to the screen for each feature; "In development" cards have a slowly travelling gradient border; FAQ answers expand smoothly.
-- **Planet:** the horizon is a dotted Earth that turns once every two minutes (WebGL2 shader in `src/planet.jsx`, land from `src/landmask.js`). It is tilted so Africa rides the horizon; Lilongwe pulses, and arcs with travelling lights run to London, New York, Berlin, Dubai, Nairobi, Johannesburg, Lagos and Toronto. It is dimmed behind the contact form, pauses off screen, falls back to canvas dots without WebGL2, and is a still frame with reduced motion.
+- **Planet:** the horizon is a dotted Earth that turns once every two minutes (WebGL2 shader in `src/planet.jsx`, land from `src/landmask.js`). It is tilted so Africa rides the horizon; Lilongwe pulses, and arcs with travelling lights run to London, New York, Berlin, Dubai, Nairobi, Johannesburg, Lagos and Toronto. It is dimmed behind the contact form, starts after the page loads, runs at 30 fps, pauses off screen, and is a still frame without a GPU (or WebGL2) and with reduced motion.
 - **Ambient:** a faint starfield drifts upward, the horizon glow breathes, phones float.
 - **Reduced motion:** everything is shown in its final state; no loops, no counting, no tilt.

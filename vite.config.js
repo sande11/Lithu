@@ -1,16 +1,10 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'node:path';
 
-// Multi-page build: each HTML file below becomes a page in dist/.
-export default defineConfig({
+// The client build bundles index.html (the page template). scripts/prerender.mjs then renders
+// every route from src/routes.js to its own static HTML file in dist/.
+export default defineConfig(({ isSsrBuild }) => ({
   build: {
-    rollupOptions: {
-      input: {
-        main: resolve(import.meta.dirname, 'index.html'),
-        vepifind: resolve(import.meta.dirname, 'vepifind.html'),
-        privacy: resolve(import.meta.dirname, 'vepifind-privacy-policy.html'),
-        terms: resolve(import.meta.dirname, 'vepifind-terms.html'),
-      },
-    },
+    assetsInlineLimit: 0,
+    copyPublicDir: !isSsrBuild, // public/ files only belong in dist/, not the temporary render bundle
   },
-});
+}));

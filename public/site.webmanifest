@@ -1,0 +1,13 @@
+{
+  "name": "Sande Technologies",
+  "short_name": "Sande Tech",
+  "description": "Software development company in Lilongwe, Malawi: our own products, agency projects and remote tech teams.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#03050d",
+  "theme_color": "#03050d",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

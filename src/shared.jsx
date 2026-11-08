@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import mark from '../assets/icon-cropped.png';
+import mark from './assets/images/sande-technologies-logo-mark.png';
+import { SITE } from './site.js';
+import { services } from './content/services.js';
 import { Planet } from './planet.jsx';
 
-export const EMAIL = 'sandetechnologiesmw@gmail.com';
-export const PHONE = '+265 996 534 912';
+export const EMAIL = SITE.email;
+export const PHONE = SITE.phone;
 
 export const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -36,11 +38,19 @@ const P = {
 export const Icon = ({ n, className }) => <svg className={className} viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{P[n]}</svg>;
 
 export function Logo() {
-  return <span className="logo"><span className="logo-chip"><img src={mark} alt="" /></span><span className="logo-word">Sande Technologies</span></span>;
+  return <span className="logo"><span className="logo-chip"><img src={mark} alt="" width="24" height="24" /></span><span className="logo-word">Sande Technologies</span></span>;
 }
 
+export const NAV = [
+  ['Services', '/services/'],
+  ['Remote developers', '/hire-remote-developers/'],
+  ['Products', '/products/'],
+  ['About', '/about/'],
+];
+const isCurrent = (href, current) => current === href || (href !== '/' && current?.startsWith(href)) || (href === '/services/' && services.some((s) => current === `/${s.slug}/`));
+
 /* ---------- header with scroll state + progress bar ---------- */
-export function SiteHeader({ links, cta, home = '#top' }) {
+export function SiteHeader({ current }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const barRef = useRef(null);
@@ -62,27 +72,70 @@ export function SiteHeader({ links, cta, home = '#top' }) {
   const close = () => setOpen(false);
   return <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
     <div className="header-inner">
-      <a href={home} aria-label="Sande Technologies home" onClick={close}><Logo /></a>
-      <button className="menu-toggle" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(!open)}>
+      <a href="/" aria-label="Sande Technologies home page" onClick={close}><Logo /></a>
+      <button className="menu-toggle" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="main-nav" onClick={() => setOpen(!open)}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">{open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 8h16M4 16h16" />}</svg>
       </button>
-      <nav className={open ? 'nav open' : 'nav'} aria-label="Main">
-        {links.map(([label, href]) => <a key={href} href={href} onClick={close}>{label}</a>)}
-        <a className="btn btn-primary btn-sm" href={cta[1]} onClick={close}>{cta[0]}</a>
+      <nav id="main-nav" className={open ? 'nav open' : 'nav'} aria-label="Main">
+        {NAV.map(([label, href]) => <a key={href} href={href} onClick={close} aria-current={isCurrent(href, current) ? 'page' : undefined}>{label}</a>)}
+        <a className="btn btn-primary btn-sm" href="/contact/" onClick={close}>Start a project</a>
       </nav>
       <span className="scroll-bar" ref={barRef} aria-hidden="true" />
     </div>
   </header>;
 }
 
-export function SiteFooter({ links }) {
+/* ---------- breadcrumbs (visible trail; the matching BreadcrumbList schema is added at build) ---------- */
+export function Breadcrumbs({ trail }) {
+  if (!trail || trail.length < 2) return null;
+  return <nav className="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      {trail.map(([name, href], i) => <li key={href}>
+        {i < trail.length - 1 ? <a href={href}>{name}</a> : <span aria-current="page">{name}</span>}
+      </li>)}
+    </ol>
+  </nav>;
+}
+
+export function SiteFooter() {
   return <footer className="footer">
     <div className="footer-top" data-reveal>
-      <a href="/" aria-label="Sande Technologies home"><Logo /></a>
-      <nav aria-label="Footer">{links.map(([l, h]) => <a key={h} href={h}>{l}</a>)}</nav>
+      <div className="footer-brand">
+        <a href="/" aria-label="Sande Technologies home page"><Logo /></a>
+        <p>Software development company in {SITE.city}, {SITE.country}, working with clients across Africa and worldwide. We build our own products, deliver projects as a tech agency and provide remote developers.</p>
+      </div>
+      <nav className="footer-cols" aria-label="Footer">
+        <div>
+          <h2>Services</h2>
+          <ul>{services.map((s) => <li key={s.slug}><a href={`/${s.slug}/`}>{s.name}</a></li>)}</ul>
+        </div>
+        <div>
+          <h2>Company</h2>
+          <ul>
+            <li><a href="/hire-remote-developers/">Hire remote developers</a></li>
+            <li><a href="/software-development-outsourcing-africa/">Outsourcing to Africa</a></li>
+            <li><a href="/products/">Our products</a></li>
+            <li><a href="/products/vepifind/">VepiFind job search app</a></li>
+            <li><a href="/about/">About us</a></li>
+            <li><a href="/contact/">Contact us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Get in touch</h2>
+          <ul>
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={`tel:${SITE.phoneE164}`}>{SITE.phone}</a></li>
+            <li><a href={SITE.whatsapp} rel="noopener" target="_blank">Message us on WhatsApp</a></li>
+            <li>{SITE.city}, {SITE.country}</li>
+          </ul>
+        </div>
+      </nav>
     </div>
     <div className="footer-word" data-reveal="word" aria-hidden="true">Sande Technologies</div>
-    <p className="footer-legal">© {new Date().getFullYear()} Sande Technologies. Software products, remote tech teams and agency builds.</p>
+    <div className="footer-legal">
+      <p suppressHydrationWarning>© {new Date().getFullYear()} {SITE.name}. Software products, remote tech teams and agency builds.</p>
+      <p><a href="/products/vepifind/privacy-policy/">VepiFind privacy policy</a><a href="/products/vepifind/terms/">VepiFind terms</a></p>
+    </div>
   </footer>;
 }
 
@@ -90,11 +143,16 @@ export function SiteFooter({ links }) {
 export function useReveal() {
   useEffect(() => {
     const els = [...document.querySelectorAll('[data-reveal]:not(.in)')];
-    if (prefersReducedMotion() || !('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('in')); return; }
+    // Content already on screen stays visible (it was painted from the pre-rendered HTML);
+    // only content further down the page waits to animate in. The "rv" class turns hiding on.
+    const vh = window.innerHeight;
+    const pending = els.filter((e) => { const r = e.getBoundingClientRect(); const seen = r.top < vh && r.bottom > 0; if (seen) e.classList.add('in'); return !seen; });
+    document.documentElement.classList.add('rv');
+    if (prefersReducedMotion() || !('IntersectionObserver' in window)) { pending.forEach((e) => e.classList.add('in')); return; }
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
-    els.forEach((e) => io.observe(e));
+    pending.forEach((e) => io.observe(e));
     return () => io.disconnect();
   }, []);
 }
@@ -179,7 +237,10 @@ export function Starfield({ density = 0.00012 }) {
       const n = Math.round(w * h * density);
       stars = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.2 + .3, a: Math.random() * .6 + .15, s: Math.random() * 2 + .5, v: Math.random() * .12 + .03, hue: Math.random() < .25 ? 195 : 220 }));
     };
+    let last = 0;
     const draw = (t = 0) => {
+      if (!reduce && t - last < 32) { raf = requestAnimationFrame(draw); return; } // ~30 fps is plenty for slow drift
+      last = t;
       ctx.clearRect(0, 0, w, h);
       for (const s of stars) {
         if (!reduce) { s.y -= s.v; if (s.y < -2) { s.y = h + 2; s.x = Math.random() * w; } }

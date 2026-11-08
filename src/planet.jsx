@@ -93,8 +93,13 @@ void main() {
 }`;
 
 function makeGL(canvas) {
-  const gl = canvas.getContext('webgl2', { premultipliedAlpha: true, antialias: false, alpha: true });
+  // failIfMajorPerformanceCaveat: no context on software-only rendering (no GPU), so we use the still fallback.
+  const gl = canvas.getContext('webgl2', { premultipliedAlpha: true, antialias: false, alpha: true, failIfMajorPerformanceCaveat: true });
   if (!gl) return null;
+  // Software renderers (no GPU: some servers, VMs, old laptops) are too slow to animate a shader.
+  const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+  const renderer = String(gl.getParameter(dbg ? dbg.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+  if (/swiftshader|llvmpipe|softpipe|software|microsoft basic render/i.test(renderer)) return null;
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
   const prog = gl.createProgram();
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, VERT)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG)); gl.linkProgram(prog);
@@ -117,9 +122,10 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
   useEffect(() => {
     const cGL = glRef.current, cFx = fxRef.current; if (!cGL || !cFx) return;
     const fx = cFx.getContext('2d');
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let G = null;
     try { G = makeGL(cGL); } catch (e) { G = null; }
+    // Without a GPU (or with reduced motion) draw one still frame instead of animating.
+    const reduce = !G || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const ca = Math.cos(tilt * RAD), sa = Math.sin(tilt * RAD);
     const arcs = CITIES.map((c, i) => ({ pts: arcPoints(HOME, c), phase: i / CITIES.length }));
     const home = toVec(HOME), cityVecs = CITIES.map(toVec);
@@ -127,7 +133,7 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
     const t0 = performance.now();
 
     const buildFallback = () => { // canvas dots when WebGL2 is unavailable
-      const target = Math.round(Math.min(22000, Math.max(8000, (4 * Math.PI * R * R) / 160)));
+      const target = Math.round(Math.min(14000, Math.max(6000, (4 * Math.PI * R * R) / 220)));
       const L = [], ga = Math.PI * (3 - Math.sqrt(5));
       for (let i = 0; i < target; i++) {
         const y = 1 - (2 * (i + .5)) / target, lat = Math.asin(y) / RAD, lon = (((ga * i) / RAD) % 360) - 180;
@@ -142,7 +148,7 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
       const w = cGL.clientWidth, h = cGL.clientHeight;
       if (w === W && h === H) return false;
       W = w; H = h; R = W / 2; pad = cFx.clientHeight - H;
-      dpr = Math.min(window.devicePixelRatio || 1, W > 1200 ? 1.25 : 1.75);
+      dpr = Math.min(window.devicePixelRatio || 1, W > 1200 ? 1 : 1.5);
       cGL.width = Math.round(W * dpr); cGL.height = Math.round(H * dpr);
       cFx.width = Math.round(W * dpr); cFx.height = Math.round((H + pad) * dpr);
       fx.setTransform(dpr, 0, 0, dpr, 0, pad * dpr);
@@ -166,7 +172,11 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
       g.fillStyle = 'rgba(110, 200, 255, .75)'; g.fill(path);
     };
 
+    let last = 0;
     const frame = (now) => {
+      // The globe turns slowly, so 30 frames a second is smooth and halves the work.
+      if (!reduce && now - last < 30) { raf = requestAnimationFrame(frame); return; }
+      last = now;
       const t = reduce ? 0 : Math.max(0, (now - t0) / 1000);
       const spin = (-58 + t * speed) * RAD, cs = Math.cos(spin), sn = Math.sin(spin);
       if (G) {
@@ -210,15 +220,23 @@ export function Planet({ band = 0.55, speed = 3, tilt = -56 }) {
       if (!reduce && visible) raf = requestAnimationFrame(frame);
     };
 
-    resize(); frame(performance.now());
-    const ro = new ResizeObserver(() => { if (resize() && (reduce || !visible)) frame(performance.now()); });
-    ro.observe(cGL);
-    const io = new IntersectionObserver(([e]) => {
-      const was = visible; visible = e.isIntersecting;
-      if (visible && !was && !reduce) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
-    });
-    io.observe(cFx);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
+    // Start after the page has loaded and the browser is idle, so the globe never delays the
+    // first paint or the page becoming interactive.
+    let ro, io, started = false, idle = 0;
+    const start = () => {
+      if (started) return; started = true;
+      resize(); frame(performance.now());
+      ro = new ResizeObserver(() => { if (resize() && (reduce || !visible)) frame(performance.now()); });
+      ro.observe(cGL);
+      io = new IntersectionObserver(([e]) => {
+        const was = visible; visible = e.isIntersecting;
+        if (visible && !was && !reduce) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+      });
+      io.observe(cFx);
+    };
+    const later = () => { idle = (window.requestIdleCallback || ((f) => setTimeout(f, 200)))(start, { timeout: 1500 }); };
+    if (document.readyState === 'complete') later(); else window.addEventListener('load', later, { once: true });
+    return () => { window.removeEventListener('load', later); (window.cancelIdleCallback || clearTimeout)(idle); cancelAnimationFrame(raf); ro?.disconnect(); io?.disconnect(); };
   }, [band, speed, tilt]);
   const FX_PAD = 0.1; // headroom above the globe for arcs, as a fraction of its diameter
   return <>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap');
+/* Fonts are self-hosted (see entry-client.jsx) for speed and privacy. */
 
 :root {
   --bg: #03050d;
@@ -18,15 +18,15 @@
   --violet: #7a6bff;
   --ok: #3ddc97;
   --brand: linear-gradient(100deg, #2f7bff 0%, #3fd0ff 100%);
-  --display: Sora, 'Segoe UI', Arial, sans-serif;
-  --body: Figtree, 'Segoe UI', Arial, sans-serif;
+  --display: 'Sora Variable', 'Segoe UI', Arial, sans-serif;
+  --body: 'Figtree Variable', 'Segoe UI', Arial, sans-serif;
   --wrap: 1200px;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 90px; background: var(--bg); }
 body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
@@ -227,8 +227,8 @@ svg { flex: none; }
 .tb-legend i { width: 18px; height: 8px; border-radius: 99px; }
 .tb-legend i.y { border: 1.5px solid rgba(238, 242, 250, .75); }
 .tb-legend i.o { background: var(--cyan); }
-.js .tb-ours, .js .tb-yours { transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.2, .7, .2, 1) .35s; }
-.js .tb-ours { transition-delay: .6s; }
+.rv .tb-ours, .rv .tb-yours { transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.2, .7, .2, 1) .35s; }
+.rv .tb-ours { transition-delay: .6s; }
 .tb.in .tb-ours, .tb.in .tb-yours { transform: none; }
 
 /* ---------- modes ---------- */
@@ -423,42 +423,42 @@ form .btn { justify-self: start; }
 .standup em { animation: joinPulse 2.2s ease-in-out infinite; }
 
 /* scroll reveal */
-.js [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1), border-color .25s; transition-delay: calc(var(--d, 0) * 90ms); }
-.js [data-reveal="right"] { transform: translateX(48px); }
-.js [data-reveal].in { opacity: 1; transform: none; }
-.js [data-reveal="steps"] { opacity: 1; transform: none; }
-.js [data-reveal="word"] { transform: none; letter-spacing: .06em; transition: opacity 1.4s ease, letter-spacing 1.6s cubic-bezier(.2, .7, .2, 1); }
-.js [data-reveal="word"].in { letter-spacing: -.06em; }
+.rv [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1), border-color .25s; transition-delay: calc(var(--d, 0) * 90ms); }
+.rv [data-reveal="right"] { transform: translateX(48px); }
+.rv [data-reveal].in { opacity: 1; transform: none; }
+.rv [data-reveal="steps"] { opacity: 1; transform: none; }
+.rv [data-reveal="word"] { transform: none; letter-spacing: .06em; transition: opacity 1.4s ease, letter-spacing 1.6s cubic-bezier(.2, .7, .2, 1); }
+.rv [data-reveal="word"].in { letter-spacing: -.06em; }
 
 /* mode visuals: animate once their card is in view */
-.js .app-row span { opacity: 0; transform: translateY(16px) scale(.9); transition: opacity .5s ease, transform .6s cubic-bezier(.2, .9, .3, 1.3); }
-.js .app-row span:nth-child(1) { transition-delay: .35s; } .js .app-row span:nth-child(2) { transition-delay: .5s; } .js .app-row span:nth-child(3) { transition-delay: .65s; }
+.rv .app-row span { opacity: 0; transform: translateY(16px) scale(.9); transition: opacity .5s ease, transform .6s cubic-bezier(.2, .9, .3, 1.3); }
+.rv .app-row span:nth-child(1) { transition-delay: .35s; } .rv .app-row span:nth-child(2) { transition-delay: .5s; } .rv .app-row span:nth-child(3) { transition-delay: .65s; }
 .mode.in .app-row span { opacity: 1; transform: none; }
-.js .tz .bar i { transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.2, .7, .2, 1); }
-.js .tz:nth-child(1) .bar i { transition-delay: .4s; } .js .tz:nth-child(2) .bar i { transition-delay: .55s; } .js .tz:nth-child(3) .bar i { transition-delay: .7s; }
+.rv .tz .bar i { transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.2, .7, .2, 1); }
+.rv .tz:nth-child(1) .bar i { transition-delay: .4s; } .rv .tz:nth-child(2) .bar i { transition-delay: .55s; } .rv .tz:nth-child(3) .bar i { transition-delay: .7s; }
 .mode.in .tz .bar i { transform: none; }
-.js .ms::before { transform: scaleX(0); transform-origin: left; transition: transform .45s ease; transition-delay: calc(var(--i) * 280ms + 250ms); }
-.js .ms i { opacity: 0; transform: scale(.4); transition: opacity .3s ease, transform .45s cubic-bezier(.2, .9, .3, 1.4); transition-delay: calc(var(--i) * 280ms + 400ms); }
+.rv .ms::before { transform: scaleX(0); transform-origin: left; transition: transform .45s ease; transition-delay: calc(var(--i) * 280ms + 250ms); }
+.rv .ms i { opacity: 0; transform: scale(.4); transition: opacity .3s ease, transform .45s cubic-bezier(.2, .9, .3, 1.4); transition-delay: calc(var(--i) * 280ms + 400ms); }
 .mode.in .ms::before { transform: none; }
 .mode.in .ms i { opacity: 1; transform: none; }
 .mode.in .ms.now i { animation: nowPulse 2s ease-in-out 1.6s infinite; }
 
 /* products: phones fan out from a stack */
-.js .fan .phone { transition: transform 1.2s cubic-bezier(.2, .8, .2, 1) .3s, opacity .8s ease .3s; }
-.js .fan .fp1, .js .fan .fp3 { transform: translate(-50%, -48%) rotate(0); opacity: 0; }
-.js .fan .fp2 { transform: translate(-50%, -40%); }
-.js .vepi.in .fp1 { transform: translate(-125%, -46%) rotate(-10deg); opacity: .85; }
-.js .vepi.in .fp3 { transform: translate(25%, -46%) rotate(10deg); opacity: .85; }
-.js .vepi.in .fp2 { transform: translate(-50%, -52%); }
+.rv .fan .phone { transition: transform 1.2s cubic-bezier(.2, .8, .2, 1) .3s, opacity .8s ease .3s; }
+.rv .fan .fp1, .rv .fan .fp3 { transform: translate(-50%, -48%) rotate(0); opacity: 0; }
+.rv .fan .fp2 { transform: translate(-50%, -40%); }
+.rv .vepi.in .fp1 { transform: translate(-125%, -46%) rotate(-10deg); opacity: .85; }
+.rv .vepi.in .fp3 { transform: translate(25%, -46%) rotate(10deg); opacity: .85; }
+.rv .vepi.in .fp2 { transform: translate(-50%, -52%); }
 .fan-glow { animation: breathe 6s ease-in-out infinite alternate; }
 
 /* process: rail fills, then each step lights up in order */
 /* each number lights, then the segment to the next one fills, then the next number lights */
-.js .step-n { background: transparent; color: var(--muted); box-shadow: inset 0 0 0 1px var(--stroke-2); transition: background .35s ease, color .35s ease, box-shadow .35s ease; transition-delay: calc(var(--i) * 480ms + 200ms); }
+.rv .step-n { background: transparent; color: var(--muted); box-shadow: inset 0 0 0 1px var(--stroke-2); transition: background .35s ease, color .35s ease, box-shadow .35s ease; transition-delay: calc(var(--i) * 480ms + 200ms); }
 .steps.in .step-n { background: #eef2fa; color: #060a18; box-shadow: inset 0 0 0 1px transparent; animation: stepPop .5s cubic-bezier(.2, .9, .3, 1.4) both; animation-delay: calc(var(--i) * 480ms + 200ms); }
-.js .step-link i { transform: scaleX(0); transition: transform .4s cubic-bezier(.4, 0, .2, 1); transition-delay: calc(var(--i) * 480ms + 300ms); }
+.rv .step-link i { transform: scaleX(0); transition: transform .4s cubic-bezier(.4, 0, .2, 1); transition-delay: calc(var(--i) * 480ms + 300ms); }
 .steps.in .step-link i { transform: none; }
-.js .step-card { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1), border-color .25s; transition-delay: calc(var(--i) * 480ms + 200ms); }
+.rv .step-card { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1), border-color .25s; transition-delay: calc(var(--i) * 480ms + 200ms); }
 .steps.in .step-card { opacity: 1; transform: none; }
 @keyframes stepPop { 0% { transform: scale(1); } 45% { transform: scale(1.14); } 100% { transform: scale(1); } }
 
@@ -556,7 +556,7 @@ textarea.flash { animation: flash 1.6s ease; }
   .steps li:nth-child(2) .step-link { display: block; }
   .step-link { left: 19px; right: auto; width: 2px; top: 48px; bottom: -22px; height: auto; margin: 0; }
   .step-link i { transform-origin: top; }
-  .js .step-link i { transform: scaleY(0); }
+  .rv .step-link i { transform: scaleY(0); }
   .fan { height: 380px; }
   .row, .seg > div { grid-template-columns: 1fr; }
   .seg-thumb { width: auto; right: 4px; bottom: auto; height: calc((100% - 16px) / 3); transform: translateY(calc(var(--n, 0) * (100% + 4px))); }
@@ -567,8 +567,8 @@ textarea.flash { animation: flash 1.6s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition: none !important; }
-  .js [data-reveal], .js .app-row span, .js .ms i, .js .step-card, .js .fan .phone { opacity: 1 !important; }
-  .js .l1 { stroke-dashoffset: 0 !important; }
+  .rv [data-reveal], .rv .app-row span, .rv .ms i, .rv .step-card, .rv .fan .phone { opacity: 1 !important; }
+  .rv .l1 { stroke-dashoffset: 0 !important; }
   .stage .phone, .horizon-glow, .fan-glow, .cap.wide::after { animation: none !important; }
   html { scroll-behavior: auto; }
 }
