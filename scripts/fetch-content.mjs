@@ -85,6 +85,9 @@ const content = {
   hours: { ...data.hours, utcOffset: utcOffset(new Date(), data.hours.timeZone) },
   products,
   services: data.services,
+  // Which saved version of each part this build uses; prerender stamps it into /admin/ so the
+  // admin can tell whether the live site has every saved change.
+  versions: data.versions ?? null,
 };
 writeFileSync(out, JSON.stringify(content, null, 2) + '\n');
 console.log(`Site content from Neon: ${data.services.filter((s) => s.visible).length} services, ${products.length} products, ${data.stack.length} stack items; ${wanted.size} images (${downloaded} new).`);

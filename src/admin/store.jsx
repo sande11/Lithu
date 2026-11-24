@@ -7,6 +7,34 @@ import { contentSchemas, issueList } from '../shared/content-schema.js';
 const Store = createContext(null);
 export const useStore = () => useContext(Store);
 
+// The content versions the live site was built from, stamped by scripts/prerender.mjs. Missing
+// on the dev server, where there is no build to compare with.
+const liveStamp = () => fetch('/admin/content-version.json', { cache: 'no-store' })
+  .then((r) => (r.ok ? r.json() : null)).then((j) => (j?.versions ? j : null)).catch(() => null);
+
+const PART_NAMES = { stack: 'Tech stack', hours: 'Working hours', products: 'Products', services: 'Services' };
+const PUBLISH_WAIT_MS = 15 * 60 * 1000; // a Netlify build that hasn't landed by now has failed
+
+// Is every saved change on the live site? Compares the saved versions with the live site's stamp,
+// so it also counts deploys started from git, not just the Publish button.
+//   { known, pending, changed: ['Products', …], publishing, stuck, builtAt }
+export function publishState(summary) {
+  const p = summary?.publish;
+  if (!p) return null;
+  const live = summary.live;
+  if (!live || !p.versions) return { known: false, pending: p.pending, changed: [] };
+  const changed = Object.keys(p.versions).filter((k) => p.versions[k] > (live.versions[k] ?? 0));
+  const sinceBuild = p.last?.ok && new Date(p.last.at) > new Date(live.builtAt) ? Date.now() - new Date(p.last.at) : null;
+  return {
+    known: true,
+    pending: changed.length > 0,
+    changed: changed.map((k) => PART_NAMES[k] ?? k),
+    publishing: changed.length > 0 && sinceBuild !== null && sinceBuild < PUBLISH_WAIT_MS,
+    stuck: changed.length > 0 && sinceBuild !== null && sinceBuild >= PUBLISH_WAIT_MS,
+    builtAt: live.builtAt,
+  };
+}
+
 export function StoreProvider({ children }) {
   const [content, setContent] = useState(null); // { stack: { value, version, updatedAt, updatedBy }, … }
   const [media, setMedia] = useState({}); // key -> { url, width, height, … }
@@ -21,7 +49,10 @@ export function StoreProvider({ children }) {
     } catch (err) { setError(err.message); }
   }, []);
   const loadSummary = useCallback(async () => {
-    try { setSummary(await api('/admin/summary')); } catch { /* the dashboard shows what it has */ }
+    try {
+      const [s, live] = await Promise.all([api('/admin/summary'), liveStamp()]);
+      setSummary({ ...s, live });
+    } catch { /* the dashboard shows what it has */ }
   }, []);
   useEffect(() => { loadContent(); loadSummary(); }, [loadContent, loadSummary]);
 
