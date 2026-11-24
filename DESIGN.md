@@ -55,11 +55,19 @@ No fake testimonials, client logos or company stats. Dashboard numbers live only
 
 The site is a pre-rendered multi-page React site (see `SEO.md`).
 
-- `src/routes.js`: every page's address, title, description and breadcrumbs.
-- `src/pages/*.jsx`: page components. `src/sections.jsx`: shared sections (hero showcase, services grid, products, team builder, process, FAQ, contact). `src/shared.jsx`: header, footer, breadcrumbs, icons, motion hooks.
-- `src/content/`: service page copy, FAQs, VepiFind legal text.
-- `scripts/prerender.mjs`: writes one HTML file per route plus `sitemap.xml` and `robots.txt`.
-- VepiFind download: set `DOWNLOAD_URL` at the top of `src/pages/VepiFind.jsx` and every "Get launch updates" button becomes "Download for Android".
+The code is in three parts:
+
+- `src/site/`: the public site.
+  - `routes.js`: every page's address, title, description and breadcrumbs.
+  - `pages/*.jsx`: page components. `sections.jsx`: shared sections (hero showcase, services grid, products slideshow, team builder, process, FAQ, contact). `shared.jsx`: header, footer, breadcrumbs, motion hooks.
+  - `content/cms.js`: services, products, tech stack and working hours, edited in the admin (downloaded into `cms.json` before each build). `content/pages.js` and `legal.js`: FAQs and VepiFind legal text.
+- `src/admin/`: the staff admin at `/admin/` (dashboard, tech stack, working hours, products, services, enquiries). A separate build, never indexed.
+- `src/shared/`: code both use: icons, the content rules (`content-schema.js`), working-hours wording, the backend addresses.
+- `functions/api/`: the Neon Function behind the contact form and the admin. `db/`: database migrations and the starting content.
+- `scripts/prerender.mjs`: writes one HTML file per route plus `sitemap.xml`, `robots.txt` and `_redirects`.
+- Product links: each product has up to 4 links set in the admin (Google Play, App Store, web app, or a website or page on this site). The first is the solid main button, the rest are outlined. Store links must point at that store.
+- VepiFind download: add a Google Play (or App Store) link to VepiFind in the admin and every "Get launch updates" button on its page becomes "Download for Android" (or "Download for iPhone").
+- Products slideshow: one product in focus, rotating every 7 seconds; it pauses on hover, keyboard focus or off screen, stops once someone picks a product, and never rotates with reduced motion. Every product stays in the pre-rendered HTML.
 - Scroll reveals only hide content below the first screen (class `rv`), so pre-rendered content is never hidden on load.
 
 ## Motion

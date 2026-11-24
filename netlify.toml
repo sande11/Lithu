@@ -125,10 +125,11 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
     # If you add analytics or other third-party scripts later, add their domains here.
-    # connect-src lists the Neon enquiries API and Neon Auth (see [build.environment]).
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://br-red-hat-bbpijin7-api.compute.c-15.us-east-1.aws.neon.tech https://ep-rapid-wave-bban0i0l.neonauth.c-15.us-east-1.aws.neon.tech; form-action 'self' mailto:; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+    # connect-src lists the Neon site API and Neon Auth (see [build.environment]); img-src adds
+    # Neon storage so /admin/ can preview product images straight after upload.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://br-red-hat-bbpijin7.storage.c-15.us-east-1.aws.neon.tech; font-src 'self'; connect-src 'self' https://br-red-hat-bbpijin7-api.compute.c-15.us-east-1.aws.neon.tech https://ep-rapid-wave-bban0i0l.neonauth.c-15.us-east-1.aws.neon.tech; form-action 'self' mailto:; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
 
-# Staff inbox: never cached or indexed.
+# Staff admin (src/admin): never cached or indexed.
 [[headers]]
   for = "/admin/*"
   [headers.values]
@@ -138,6 +139,12 @@
 # Built files have content hashes in their names, so they can be cached for a year.
 [[headers]]
   for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Product images copied from Neon at build time; each name includes a unique id.
+[[headers]]
+  for = "/media/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
