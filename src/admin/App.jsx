@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { API_URL, AUTH_URL } from '../shared/backend.js';
 import { getAuth, authMessage } from './auth.js';
 import { api, setAuthProblemHandler } from './api.js';
-import { StoreProvider, useStore } from './store.jsx';
-import { Icon, ago } from './ui.jsx';
+import { StoreProvider, useStore, publishState } from './store.jsx';
+import { Icon } from './ui.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Stack from './pages/Stack.jsx';
 import Hours from './pages/Hours.jsx';
@@ -229,7 +229,14 @@ function PublishButton() {
   const { summary, loadSummary } = useStore();
   const [state, setState] = useState(null); // { tone, text }
   const [busy, setBusy] = useState(false);
-  const pending = summary?.publish?.pending;
+  const live = publishState(summary);
+  const pending = live?.pending;
+  // While Netlify builds, check every 20 seconds so the status flips once the new site is live.
+  useEffect(() => {
+    if (!live?.publishing) return undefined;
+    const t = setInterval(loadSummary, 20000);
+    return () => clearInterval(t);
+  }, [live?.publishing, loadSummary]);
   const publish = async () => {
     setBusy(true); setState(null);
     try {
@@ -242,9 +249,9 @@ function PublishButton() {
         : { tone: 'error', text: err.data?.detail || err.message });
     } finally { setBusy(false); }
   };
-  const last = summary?.publish?.last;
+  const status = live?.publishing ? 'Updating the live site…' : pending ? 'Unpublished changes' : live?.known ? 'Live site up to date' : '';
   return <div className="a-publish">
-    <span className={`a-pubstate ${pending ? 'pending' : ''}`}>{pending ? 'Unpublished changes' : last?.ok ? `Published ${ago(last.at)}` : 'Live site up to date'}</span>
+    <span className={`a-pubstate ${pending && !live?.publishing ? 'pending' : ''}`}>{status}</span>
     <button type="button" className={`a-btn ${pending ? 'primary' : ''}`} onClick={publish} disabled={busy}><Icon n="rocket" />{busy ? 'Publishing…' : 'Publish'}</button>
     {state && <div className={`a-pubmsg a-notice ${state.tone}`} role="status">{state.text}<button type="button" className="a-icon-btn" onClick={() => setState(null)} aria-label="Dismiss"><Icon n="x" /></button></div>}
   </div>;

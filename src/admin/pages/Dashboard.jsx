@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
-import { useStore } from '../store.jsx';
+import { useStore, publishState } from '../store.jsx';
 import { PageHead, Card, Notice, Icon, ago, when } from '../ui.jsx';
+
+const list = (names) => new Intl.ListFormat('en-GB', { type: 'conjunction' }).format(names);
 
 export default function Dashboard() {
   const { summary, loadSummary } = useStore();
   useEffect(() => { loadSummary(); }, [loadSummary]);
   if (!summary) return <><PageHead title="Dashboard" /><p className="a-muted">Loading…</p></>;
   const { enquiries, content, publish } = summary;
+  const live = publishState(summary);
   const hidden = (x) => x.total - x.visible;
   return <>
     <PageHead title="Dashboard" intro="What’s on the site, what’s waiting to be published and what’s come in.">
@@ -22,9 +25,15 @@ export default function Dashboard() {
 
     <div className="a-grid2">
       <Card title="Publishing">
-        {publish.pending
-          ? <p><strong>You have unpublished changes</strong> (last saved {ago(publish.lastEditAt)}). Press <strong>Publish</strong> at the top right to rebuild the live site with them.</p>
+        {!live.known
+          ? (publish.pending
+              ? <p><strong>You may have unpublished changes</strong> (last saved {ago(publish.lastEditAt)}). Press <strong>Publish</strong> at the top right to rebuild the live site with them.</p>
+              : <p>No saved changes since the last publish.</p>)
+          : live.publishing ? <p><strong>Updating the live site.</strong> Netlify is rebuilding it with your changes to {list(live.changed)}; this usually takes a minute or two.</p>
+          : live.pending ? <p><strong>Not live yet:</strong> your saved changes to {list(live.changed)}. Press <strong>Publish</strong> at the top right to rebuild the live site with them.</p>
           : <p>The live site has every saved change.</p>}
+        {live.stuck && <Notice tone="warn">Your last publish hasn’t reached the live site. Check the latest deploy under Deploys in Netlify, then publish again.</Notice>}
+        {live.known && <p className="a-muted">Live site built {when(live.builtAt)}.</p>}
         <p className="a-muted">{publish.last ? `Last published ${when(publish.last.at)} by ${publish.last.by}${publish.last.ok ? '' : ' (Netlify refused it)'}.` : 'Nothing has been published from the admin yet.'}</p>
         {!publish.configured && <Notice tone="warn">Publishing isn’t connected to Netlify yet, so saved changes go live with the next Netlify deploy. To publish from here, create a build hook in Netlify (Project configuration › Build &amp; deploy › Continuous deployment › Build hooks) and add it as NETLIFY_BUILD_HOOK_URL.</Notice>}
       </Card>

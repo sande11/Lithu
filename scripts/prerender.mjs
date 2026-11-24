@@ -56,6 +56,13 @@ writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 const redirects = ssr.serviceRedirects();
 writeFileSync(join(dist, '_redirects'), redirects.length ? `# Services hidden in /admin/\n${redirects.join('\n')}\n` : '# No hidden services\n');
 
+// The content versions this build was made from, for /admin/ (served no-store and noindex there).
+const { versions } = JSON.parse(readFileSync(join(root, 'src/site/content/cms.json'), 'utf8'));
+if (versions) {
+  mkdirSync(join(dist, 'admin'), { recursive: true });
+  writeFileSync(join(dist, 'admin/content-version.json'), JSON.stringify({ versions, builtAt: new Date().toISOString() }) + '\n');
+}
+
 writeFileSync(join(dist, 'robots.txt'), `# ${SITE.name}\nUser-agent: *\nAllow: /\nDisallow: /thank-you/\nDisallow: /admin/\n\nSitemap: ${SITE.url}/sitemap.xml\n`);
 
 // Remove the temporary render bundle (harmless if it can't be removed; it's in .gitignore).

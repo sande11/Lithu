@@ -23,7 +23,11 @@ const IMAGE_TYPES: Record<string, { type: string; ext: string; magic: (b: Uint8A
   "image/jpeg": { type: "image/jpeg", ext: "jpg", magic: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
   "image/webp": { type: "image/webp", ext: "webp", magic: (b) => String.fromCharCode(...b.slice(0, 4)) === "RIFF" && String.fromCharCode(...b.slice(8, 12)) === "WEBP" },
 };
-const HOOK_PREFIX = "https://api.netlify.com/build_hooks/";
+// A Netlify build hook: https://api.netlify.com/build_hooks/ followed by its id (a long run of
+// letters and digits), so a placeholder such as …/build_hooks/your-id counts as not set up.
+const HOOK_RE = /^https:\/\/api\.netlify\.com\/build_hooks\/[A-Za-z0-9]{20,}$/;
+const hookUrl = () => (HOOK_RE.test(process.env.NETLIFY_BUILD_HOOK_URL ?? "") ? process.env.NETLIFY_BUILD_HOOK_URL! : null);
+const versionsOf = (all: Record<string, { version: number }>) => Object.fromEntries(CONTENT_KEYS.map((k) => [k, all[k]?.version ?? 0]));
 
 const mediaKeysOf = (products: Product[]) => products.flatMap((p) => [p.icon.key, ...p.screenshots.map((s) => s.key)]);
 
@@ -57,6 +61,7 @@ content.get("/content", async (c) => {
     services: all.services.value, // hidden ones too: the build redirects their old addresses
     media: await mediaMap(mediaKeysOf(products)),
     updatedAt: CONTENT_KEYS.map((k) => all[k].updated_at as Date).sort((a, b) => +a - +b).pop(),
+    versions: versionsOf(all), // stamped into the build so /admin/ can tell what is live
   });
 });
 
@@ -131,14 +136,16 @@ content.post("/admin/media", async (c) => {
 });
 
 content.post("/admin/publish", async (c) => {
-  const hook = process.env.NETLIFY_BUILD_HOOK_URL;
-  if (!hook || !hook.startsWith(HOOK_PREFIX)) return c.json({ error: "not_configured" }, 501);
+  const hook = hookUrl();
+  if (!hook) return c.json({ error: "not_configured" }, 501);
   const email = c.get("admin").email;
   let ok = false, detail = "";
   try {
     const res = await fetch(`${hook}?trigger_title=${encodeURIComponent(`Content published from /admin by ${email}`)}`, { method: "POST" });
     ok = res.ok;
-    detail = `Netlify answered ${res.status}`;
+    detail = res.ok ? `Netlify answered ${res.status}`
+      : res.status === 404 ? "Netlify doesn’t recognise this build hook (404). It may have been deleted or copied incompletely: copy it again from Netlify into NETLIFY_BUILD_HOOK_URL in .env.local and run npm run neon:deploy."
+      : `Netlify refused the build hook (${res.status}). Try again in a minute.`;
   } catch (err) {
     detail = `Could not reach Netlify: ${(err as Error).message}`;
   }
@@ -155,8 +162,10 @@ content.get("/admin/summary", async (c) => {
   ]);
   const products = (all.products?.value ?? []) as Product[];
   const services = (all.services?.value ?? []) as Service[];
-  // Edits made in the admin (not the starting content) since the last successful publish.
-  const edits = CONTENT_KEYS.map((k) => all[k]).filter((r) => r && r.updated_by !== "seed");
+  // Edits made in the admin (not the starting content or a migration) since the last successful
+  // publish. Only a fallback: /admin/ compares `versions` with the live site's content stamp,
+  // which also sees deploys started from git.
+  const edits = CONTENT_KEYS.map((k) => all[k]).filter((r) => r && r.updated_by !== "seed" && !String(r.updated_by).startsWith("migration"));
   const lastEdit = edits.map((r) => r.updated_at as Date).sort((a, b) => +a - +b).pop() ?? null;
   const lastOk = (await pool.query(`SELECT max(requested_at) AS at FROM publishes WHERE ok`)).rows[0].at as Date | null;
   return c.json({
@@ -172,7 +181,8 @@ content.get("/admin/summary", async (c) => {
       hours: all.hours ? hoursText(all.hours.value, utcOffset(new Date(), all.hours.value.timeZone)) : null,
     },
     publish: {
-      configured: Boolean(process.env.NETLIFY_BUILD_HOOK_URL?.startsWith(HOOK_PREFIX)),
+      configured: Boolean(hookUrl()),
+      versions: versionsOf(all),
       last: publish.rows[0] ? { at: publish.rows[0].requested_at, by: publish.rows[0].requested_by, ok: publish.rows[0].ok } : null,
       lastEditAt: lastEdit,
       pending: Boolean(lastEdit && (!lastOk || lastEdit > lastOk)),
