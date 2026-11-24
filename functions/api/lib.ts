@@ -22,7 +22,9 @@ export const s3 = new S3Client({ forcePathStyle: true }); // Neon Object Storage
 export const signedUrl = (key: string, seconds = 600, download?: string) =>
   getSignedUrl(s3, new GetObjectCommand({ Bucket: BUCKET, Key: key, ...(download ? { ResponseContentDisposition: `attachment; filename="${download}"` } : {}) }), { expiresIn: seconds });
 
-const DEFAULT_ORIGINS = ["https://sandetechnologies.com", "https://www.sandetechnologies.com"];
+// The live site and its Netlify address. Neon Auth trusts the same list
+// (`neon neon-auth domain list`); add a new address to both.
+const DEFAULT_ORIGINS = ["https://sandetechnologies.com", "https://www.sandetechnologies.com", "https://sandetechnologies.netlify.app"];
 const origins = new Set(
   DEFAULT_ORIGINS.concat((process.env.ALLOWED_ORIGINS ?? "").split(",")).map((o) => o.trim()).filter(Boolean),
 );

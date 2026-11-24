@@ -17,6 +17,7 @@ export async function getToken() {
 export function authMessage(err) {
   const code = err?.error?.code || err?.code || '';
   if (code === 'INVALID_EMAIL_OR_PASSWORD' || err?.status === 401) return 'That email and password don’t match an account.';
+  if (code === 'INVALID_ORIGIN') return `Sign-in isn’t allowed from ${window.location.host} yet. Add it with: neon neon-auth domain add ${window.location.origin}`;
   if (code === 'PASSWORD_TOO_SHORT') return 'Use a password of at least 8 characters.';
   if (code === 'PASSWORD_TOO_LONG') return 'That password is too long. Use 128 characters or fewer.';
   if (code === 'INVALID_TOKEN') return 'That link has expired or was already used. Request a new one.';
