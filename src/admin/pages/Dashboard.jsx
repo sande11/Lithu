@@ -26,7 +26,7 @@ export default function Dashboard() {
           ? <p><strong>You have unpublished changes</strong> (last saved {ago(publish.lastEditAt)}). Press <strong>Publish</strong> at the top right to rebuild the live site with them.</p>
           : <p>The live site has every saved change.</p>}
         <p className="a-muted">{publish.last ? `Last published ${when(publish.last.at)} by ${publish.last.by}${publish.last.ok ? '' : ' (Netlify refused it)'}.` : 'Nothing has been published from the admin yet.'}</p>
-        {!publish.configured && <Notice tone="warn">Publishing isn’t connected to Netlify yet, so saved changes go live with the next Netlify deploy. To publish from here, create a build hook in Netlify (Site configuration › Build &amp; deploy › Build hooks) and add it as NETLIFY_BUILD_HOOK_URL.</Notice>}
+        {!publish.configured && <Notice tone="warn">Publishing isn’t connected to Netlify yet, so saved changes go live with the next Netlify deploy. To publish from here, create a build hook in Netlify (Project configuration › Build &amp; deploy › Continuous deployment › Build hooks) and add it as NETLIFY_BUILD_HOOK_URL.</Notice>}
       </Card>
       <Card title="Working hours">
         <p className="a-big-line">{content.hours}</p>

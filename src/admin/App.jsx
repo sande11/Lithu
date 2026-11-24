@@ -238,7 +238,7 @@ function PublishButton() {
       loadSummary();
     } catch (err) {
       setState(err.status === 501
-        ? { tone: 'warn', text: 'Publishing isn’t set up yet. Create a build hook in Netlify (Site configuration › Build & deploy › Build hooks), add it as NETLIFY_BUILD_HOOK_URL in .env.local and run npm run neon:deploy. Until then, changes go live with the next Netlify deploy.' }
+        ? { tone: 'warn', text: 'Publishing isn’t set up yet. Create a build hook in Netlify (Project configuration › Build & deploy › Continuous deployment › Build hooks), add it as NETLIFY_BUILD_HOOK_URL in .env.local and run npm run neon:deploy. Until then, changes go live with the next Netlify deploy.' }
         : { tone: 'error', text: err.data?.detail || err.message });
     } finally { setBusy(false); }
   };

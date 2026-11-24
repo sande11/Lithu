@@ -15,7 +15,7 @@ export default defineConfig({
         // (e.g. a Netlify deploy preview). The defaults live in functions/api/lib.ts.
         ALLOWED_ORIGINS: { value: process.env.ALLOWED_ORIGINS, required: false },
         // Netlify build hook that the admin's Publish button calls to rebuild the site.
-        // Create one in Netlify: Site configuration > Build & deploy > Build hooks.
+        // Create one in Netlify: Project configuration > Build & deploy > Continuous deployment > Build hooks.
         NETLIFY_BUILD_HOOK_URL: { value: process.env.NETLIFY_BUILD_HOOK_URL, required: false },
       },
     },
