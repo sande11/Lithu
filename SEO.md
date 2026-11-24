@@ -5,10 +5,12 @@ What the site now does, and the steps that have to be done outside the code.
 ## How the site is built
 
 - Every page is **pre-rendered to plain HTML** at build time (`npm run build`), so search engines and social apps see the full text, headings, links and structured data without running JavaScript. React then "hydrates" the page for animations and the contact form.
-- One place to edit business details: **`src/site.js`** (domain, email, phone, social links, verification codes).
-- One place to edit page titles, descriptions and addresses: **`src/routes.js`**.
-- Service page content: **`src/content/services.js`** (one entry per page).
-- The build writes `dist/sitemap.xml` and `dist/robots.txt` automatically from `src/routes.js`, so new pages are always listed.
+- One place to edit business details: **`src/site/site.js`** (domain, email, phone, social links, verification codes).
+- One place to edit page titles, descriptions and addresses of the fixed pages: **`src/site/routes.js`**.
+- **Services, products, the tech stack and working hours are edited in the admin at `/admin/`** and stored in the Neon database. Before every build, `scripts/fetch-content.mjs` downloads them (and the product images) and the pages are pre-rendered from them exactly like the rest, so search engines see the same full HTML. Press **Publish** in the admin to rebuild the live site after an edit.
+- Each service's Google title, meta description, FAQs and target searches are fields in the admin's service editor, with a Google result preview and length guidance.
+- A service's address can't change once saved. Hiding a service removes its page and redirects the old address to `/services/` (301), so links and rankings carry over; the build writes those redirects to `dist/_redirects`.
+- The build writes `dist/sitemap.xml` and `dist/robots.txt` automatically from the routes and the visible services, so new pages are always listed.
 
 ## Pages and the searches they target
 
@@ -40,7 +42,7 @@ What the site now does, and the steps that have to be done outside the code.
 - One H1 per page, then H2/H3 in order (checked automatically, no skipped levels).
 - Short, readable addresses (`/web-development/`), one canonical URL per page, `hreflang` for English.
 - Open Graph and X/Twitter card tags, with a 1200×630 share image per page in `public/og/`.
-- Structured data (schema.org): Organization, WebSite, WebPage, BreadcrumbList, Service, FAQPage, SoftwareApplication (VepiFind, Belo, Hospr), AboutPage, ContactPage.
+- Structured data (schema.org): Organization, WebSite, WebPage, BreadcrumbList, Service, FAQPage, SoftwareApplication (VepiFind, Belo, Hospr), AboutPage, ContactPage. A product's `url` is its page here, its website or its web app; its Google Play and App Store links go in `installUrl`.
 - Visible breadcrumbs on inner pages; header and footer link every service; each service page links to three related services; descriptive link text (no "click here").
 - Images: WebP, resized (10× smaller than before), descriptive file names, alt text, width and height (no layout shift), lazy-loaded below the fold.
 - Fonts self-hosted and preloaded; CSS inlined; the rotating globe starts after the page loads and shows a still frame on devices without a graphics card.

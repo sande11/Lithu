@@ -19,6 +19,7 @@ google-analytics-snippet.html
 # Logs and databases
 *.log
 *.sql
+!db/migrations/*.sql
 *.sqlite
 
 # Environment variables
@@ -52,3 +53,8 @@ Thumbs.db
 # Build output
 dist/
 .ssr/
+
+# Site content downloaded from Neon before each build (scripts/fetch-content.mjs)
+src/site/content/cms.json
+public/media/
+.neon

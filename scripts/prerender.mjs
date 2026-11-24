@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, '..');
 const dist = join(root, 'dist');
 const ssrDir = join(root, '.ssr');
 const ssr = await import(pathToFileURL(join(ssrDir, 'entry-server.js')).href);
-const { SITE } = await import(pathToFileURL(join(root, 'src/site.js')).href);
+const { SITE } = await import(pathToFileURL(join(root, 'src/site/site.js')).href);
 
 let template = readFileSync(join(dist, 'index.html'), 'utf8');
 // Inline the stylesheet (about 10 KB compressed) so the first paint doesn't wait for a second request.
@@ -52,7 +52,11 @@ const urls = ssr.routes.filter((r) => r.sitemap !== false && !r.noindex).map((r)
 });
 writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join('\n')}\n</urlset>\n`);
 
-writeFileSync(join(dist, 'robots.txt'), `# ${SITE.name}\nUser-agent: *\nAllow: /\nDisallow: /thank-you/\n\nSitemap: ${SITE.url}/sitemap.xml\n`);
+// _redirects: hidden services -> /services/ (netlify.toml holds the fixed redirects).
+const redirects = ssr.serviceRedirects();
+writeFileSync(join(dist, '_redirects'), redirects.length ? `# Services hidden in /admin/\n${redirects.join('\n')}\n` : '# No hidden services\n');
+
+writeFileSync(join(dist, 'robots.txt'), `# ${SITE.name}\nUser-agent: *\nAllow: /\nDisallow: /thank-you/\nDisallow: /admin/\n\nSitemap: ${SITE.url}/sitemap.xml\n`);
 
 // Remove the temporary render bundle (harmless if it can't be removed; it's in .gitignore).
 try { if (existsSync(ssrDir)) rmSync(ssrDir, { recursive: true, force: true }); } catch {}
