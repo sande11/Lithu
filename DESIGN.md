@@ -61,7 +61,7 @@ The code is in three parts:
   - `routes.js`: every page's address, title, description and breadcrumbs.
   - `pages/*.jsx`: page components. `sections.jsx`: shared sections (hero showcase, services grid, products slideshow, team builder, process, FAQ, contact). `shared.jsx`: header, footer, breadcrumbs, motion hooks.
   - `content/cms.js`: services, products, tech stack and working hours, edited in the admin (downloaded into `cms.json` before each build). `content/pages.js` and `legal.js`: FAQs and VepiFind legal text.
-- `src/admin/`: the staff admin at `/admin/` (dashboard, tech stack, working hours, products, services, enquiries). A separate build, never indexed.
+- `src/admin/`: the staff admin at `/admin/` (dashboard, tech stack, working hours, products, services, enquiries). A separate build, never indexed. See "Admin accounts" below.
 - `src/shared/`: code both use: icons, the content rules (`content-schema.js`), working-hours wording, the backend addresses.
 - `functions/api/`: the Neon Function behind the contact form and the admin. `db/`: database migrations and the starting content.
 - `scripts/prerender.mjs`: writes one HTML file per route plus `sitemap.xml`, `robots.txt` and `_redirects`.
@@ -69,6 +69,14 @@ The code is in three parts:
 - VepiFind download: add a Google Play (or App Store) link to VepiFind in the admin and every "Get launch updates" button on its page becomes "Download for Android" (or "Download for iPhone").
 - Products slideshow: one product in focus, rotating every 7 seconds; it pauses on hover, keyboard focus or off screen, stops once someone picks a product, and never rotates with reduced motion. Every product stays in the pre-rendered HTML.
 - Scroll reveals only hide content below the first screen (class `rv`), so pre-rendered content is never hidden on load.
+
+## Admin accounts
+Nobody can create their own account. Sign-up is switched off in Neon Auth (`neon neon-auth config email-password update --disable-sign-up true`), there is no social login, and the admin only offers sign-in. To add a staff member:
+1. `neon neon-auth user create --email person@example.com --name "Their Name"`
+2. `neon neon-auth user set-role <user-id from step 1> --roles admin`
+3. They open `/admin/`, choose **Set or reset your password**, and follow the emailed link (valid once, for one hour).
+
+To remove someone: `neon neon-auth user delete <user-id>`. The same password link also covers forgotten passwords. Password emails are sent by Neon's shared email service until a custom provider is set with `neon neon-auth config email-provider`.
 
 ## Motion
 

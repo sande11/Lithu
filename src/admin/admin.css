@@ -77,6 +77,7 @@ input[type=time] { color-scheme: dark; }
 .a-center { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: radial-gradient(60% 50% at 50% 0%, rgba(47, 123, 255, .14), transparent 70%), var(--bg); }
 .a-center-card { width: min(440px, 100%); display: grid; gap: 16px; padding: 30px; }
 .a-center-card h1 { font-size: 26px; }
+.a-center-card > .a-notice { margin: 0; }
 .a-center-card pre { margin: 0; padding: 12px 14px; border-radius: 12px; background: rgba(3, 5, 13, .7); border: 1px solid var(--stroke); overflow-x: auto; font-size: 13px; }
 .a-form { display: grid; gap: 4px; }
 .a-form .a-field { margin-bottom: 10px; }
