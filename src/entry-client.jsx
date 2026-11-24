@@ -23,6 +23,7 @@ const loaders = {
   notfound: () => import('./pages/NotFound.jsx'),
   thanks: () => import('./pages/ThankYou.jsx'),
   outsourcing: () => import('./pages/Outsourcing.jsx'),
+  admin: () => import('./pages/Admin.jsx'),
 };
 
 const root = document.getElementById('root');

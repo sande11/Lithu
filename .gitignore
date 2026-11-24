@@ -19,6 +19,7 @@ google-analytics-snippet.html
 # Logs and databases
 *.log
 *.sql
+!db/migrations/*.sql
 *.sqlite
 
 # Environment variables
@@ -52,3 +53,4 @@ Thumbs.db
 # Build output
 dist/
 .ssr/
+.neon

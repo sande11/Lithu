@@ -6,11 +6,22 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir .ssr && node scripts/prerender.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:migrate": "node scripts/migrate.mjs",
+    "neon:deploy": "neon deploy --env .env.local"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1176.0",
+    "@aws-sdk/s3-request-presigner": "3.1176.0",
     "@fontsource-variable/figtree": "5.3.0",
     "@fontsource-variable/sora": "5.3.0",
+    "@neon/auth": "0.8.2",
+    "@neon/config": "1.14.6",
+    "@neon/env": "2.1.9",
+    "@neon/functions": "0.11.0",
+    "hono": "4.13.21",
+    "jose": "6.2.18",
+    "pg": "8.23.1",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },

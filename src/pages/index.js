@@ -11,5 +11,6 @@ import legal from './Legal.jsx';
 import notfound from './NotFound.jsx';
 import thanks from './ThankYou.jsx';
 import outsourcing from './Outsourcing.jsx';
+import admin from './Admin.jsx';
 
-export const pages = { home, services, service, remote, products, vepifind, about, contact, legal, notfound, thanks, outsourcing };
+export const pages = { home, services, service, remote, products, vepifind, about, contact, legal, notfound, thanks, outsourcing, admin };

@@ -4,6 +4,7 @@ import { SITE } from './site.js';
 import { services } from './content/services.js';
 import { IMG, Img } from './images.jsx';
 import { Icon, CountUp, Horizon, Starfield, prefersReducedMotion, usePointerTilt, useScrollVar } from './shared.jsx';
+import { API_URL, ATTACH_ACCEPT, ATTACH_MAX_MB, attachmentProblem, sendEnquiry } from './backend.js';
 
 /* ---------- inner-page hero ---------- */
 export function PageHero({ eyebrow, title, lead, children, aside }) {
@@ -352,9 +353,10 @@ export function TeamBuilder() {
 
 /* ---------- contact section with a Netlify form ----------
    Netlify detects the form in the pre-rendered HTML (data-netlify) and emails each submission.
-   With JavaScript the form posts in the background and shows a confirmation in place; without
-   it, the browser posts normally and lands on /thank-you/. If posting fails (e.g. running
-   locally), it falls back to opening the visitor's email app. */
+   With JavaScript the form posts in the background and shows a confirmation in place, and the
+   same enquiry (plus an optional attachment) also goes to the Neon enquiries API, which feeds
+   the /admin/ inbox. Without JavaScript, the browser posts to Netlify and lands on /thank-you/.
+   If both posts fail (e.g. running locally), it falls back to opening the visitor's email app. */
 const ENGAGEMENTS = { agency: 'Agency project', team: 'Remote tech team', products: 'Product partnership' };
 export function ContactSection({ title = 'Tell us what you need built.', headingLevel = 2, defaultEngagement = 'agency' }) {
   const [engagement, setEngagement] = useState(defaultEngagement);
@@ -362,6 +364,10 @@ export function ContactSection({ title = 'Tell us what you need built.', heading
   const [status, setStatus] = useState(null);
   const [flash, setFlash] = useState(false);
   const [sending, setSending] = useState(false);
+  // The attachment field needs JavaScript (and the Neon API), so it appears after hydration
+  // and never in the pre-rendered HTML that Netlify reads.
+  const [canAttach, setCanAttach] = useState(false);
+  useEffect(() => { if (API_URL) setCanAttach(true); }, []);
   useEffect(() => {
     const on = (e) => {
       setEngagement(e.detail.engagement); setMessage(e.detail.message); setStatus(null);
@@ -378,17 +384,30 @@ export function ContactSection({ title = 'Tell us what you need built.', heading
     const name = (d.get('name') || '').trim(), email = (d.get('email') || '').trim(), company = (d.get('company') || '').trim();
     if (!name || !email || !message.trim()) { setStatus({ type: 'error', text: 'Add your name, email and a short description so we can reply.' }); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus({ type: 'error', text: 'Check your email address so we can reply.' }); return; }
+    const file = d.get('attachment');
+    const hasFile = file instanceof File && file.size > 0;
+    const fileProblem = hasFile && attachmentProblem(file);
+    if (fileProblem) { setStatus({ type: 'error', text: fileProblem }); return; }
     setSending(true);
     try {
-      const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(d).toString() });
-      if (!res.ok) throw new Error(String(res.status));
-      setStatus({ type: 'ok', text: `Thanks, ${name}. Your enquiry is with us and we’ll reply to ${email} within one working day.` });
+      // Netlify Forms gets the text fields, exactly as before.
+      const netlifyFields = new URLSearchParams();
+      for (const [k, v] of d) if (typeof v === 'string') netlifyFields.append(k, v);
+      const toNetlify = fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: netlifyFields.toString() })
+        .then((res) => { if (!res.ok) throw new Error(String(res.status)); });
+      // The Neon enquiries API gets the same enquiry, the page it came from and any attachment.
+      d.set('page', window.location.pathname);
+      const toNeon = API_URL ? sendEnquiry(d) : Promise.reject(new Error('not configured'));
+      const [netlify, neon] = await Promise.allSettled([toNetlify, toNeon]);
+      if (netlify.status === 'rejected' && neon.status === 'rejected') throw neon.reason;
+      const fileLost = hasFile && neon.status === 'rejected';
+      setStatus({ type: 'ok', text: `Thanks, ${name}. Your enquiry is with us and we’ll reply to ${email} within one working day.${fileLost ? ` We couldn’t upload ${file.name}, so please email it to ${SITE.email}.` : ''}` });
       form.reset(); setMessage('');
     } catch {
       const subject = `${ENGAGEMENTS[engagement]} enquiry from ${name}${company ? ` (${company})` : ''}`;
       const body = `${message}\n\n—\nName: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\nInterested in: ${ENGAGEMENTS[engagement]}`;
       window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setStatus({ type: 'ok', text: `Your email app should open with the enquiry ready to send. If it doesn't, email us at ${SITE.email}.` });
+      setStatus({ type: 'ok', text: `Your email app should open with the enquiry ready to send${hasFile ? ' (attach your file there)' : ''}. If it doesn't, email us at ${SITE.email}.` });
     } finally { setSending(false); }
   };
   return <section className="contact" id="contact" aria-labelledby="contact-title">
@@ -418,6 +437,7 @@ export function ContactSection({ title = 'Tell us what you need built.', heading
         </div>
         <label><span>Company <span className="opt">(optional)</span></span><input name="company" autoComplete="organization" /></label>
         <label>What do you need?<textarea id="msg" name="message" className={flash ? 'flash' : ''} rows="5" value={message} onChange={(e) => setMessage(e.target.value)} required placeholder="A few lines about the project, the team you need, or the problem you’re solving" /></label>
+        {canAttach && <label><span>Attach a brief <span className="opt">(optional, up to {ATTACH_MAX_MB} MB: PDF, Office document, text or image)</span></span><input className="file" name="attachment" type="file" accept={ATTACH_ACCEPT} /></label>}
         {status && <p className={`form-status ${status.type}`} role={status.type === 'error' ? 'alert' : 'status'}>{status.text}</p>}
         <button className="btn btn-primary" type="submit" disabled={sending}>{sending ? 'Sending…' : 'Send enquiry'} <Icon n="arrow" /></button>
       </form>

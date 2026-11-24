@@ -89,6 +89,11 @@ export const routes = [
     description: 'Your enquiry has reached Sande Technologies. We reply within one working day.',
   },
   {
+    path: '/admin/', page: 'admin', og: 'home', noindex: true, sitemap: false,
+    title: 'Enquiries inbox | Sande Technologies',
+    description: 'Staff sign-in for the Sande Technologies enquiries inbox.',
+  },
+  {
     path: '/404', file: '404.html', page: 'notfound', og: 'home', noindex: true, sitemap: false,
     title: 'Page not found | Sande Technologies',
     description: 'The page you were looking for has moved or no longer exists. Find our services, products and contact details here.',
