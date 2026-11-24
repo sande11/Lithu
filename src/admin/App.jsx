@@ -33,11 +33,22 @@ function useHash() {
   return parts;
 }
 
+// The password email links to /admin/?token=… (or ?error=INVALID_TOKEN once the link has expired
+// or been used). Read it once on load, then take it out of the address bar and history.
+const PASSWORD_LINK = (() => {
+  const q = new URLSearchParams(window.location.search);
+  const link = q.get('token') ? { token: q.get('token') } : q.get('error') ? { error: q.get('error') } : null;
+  if (link) window.history.replaceState(null, '', window.location.pathname + window.location.hash);
+  return link;
+})();
+
 export default function App() {
   const configured = Boolean(API_URL && AUTH_URL);
   const [phase, setPhase] = useState('loading'); // loading | signedOut | denied | ready
   const [user, setUser] = useState(null);
   const [denied, setDenied] = useState(null);
+  const [resetToken, setResetToken] = useState(PASSWORD_LINK?.token ?? null);
+  const [notice, setNotice] = useState(PASSWORD_LINK?.error ? 'expired' : null); // expired | passwordSet
 
   const signedOut = useCallback(() => { setUser(null); setPhase('signedOut'); }, []);
   useEffect(() => {
@@ -65,8 +76,10 @@ export default function App() {
   };
 
   if (!configured) return <Centered><h1>Admin not configured</h1><p>This build has no Neon API address. Set VITE_NEON_API_URL and VITE_NEON_AUTH_URL (see netlify.toml) and rebuild.</p></Centered>;
+  if (resetToken) return <SetPassword token={resetToken}
+    onDone={() => { setResetToken(null); setNotice('passwordSet'); }} onExpired={() => { setResetToken(null); setNotice('expired'); }} />;
   if (phase === 'loading') return <Centered><p className="a-muted">Checking your session…</p></Centered>;
-  if (phase === 'signedOut') return <SignIn onSignedIn={enter} />;
+  if (phase === 'signedOut') return <SignIn onSignedIn={enter} notice={notice} />;
   if (phase === 'denied') return <Centered>
     <h1>No admin access yet</h1>
     <p>{denied?.email || user?.email} can sign in but isn’t allowed into the admin. The site owner can grant access with the Neon CLI:</p>
@@ -82,19 +95,51 @@ function Centered({ children }) {
   return <main className="a-center"><div className="a-card a-center-card"><Brand />{children}</div></main>;
 }
 
-function SignIn({ onSignedIn }) {
-  const [mode, setMode] = useState('signIn');
+// Sign-in only: there is no sign-up. The site owner creates staff accounts with the Neon CLI
+// (see DESIGN.md › Admin accounts) and sign-up is switched off in Neon Auth itself, not just
+// hidden here. A new account has no password, so "Set or reset your password" emails a link.
+function SignIn({ onSignedIn, notice }) {
+  const [view, setView] = useState(notice === 'expired' ? 'forgot' : 'signIn'); // signIn | forgot | sent
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const [sentTo, setSentTo] = useState('');
+  const show = (v) => { setView(v); setError(null); };
+  const requestLink = async (e) => {
+    e.preventDefault();
+    const email = String(new FormData(e.currentTarget).get('email') || '').trim();
+    if (!email) { setError('Enter your email.'); return; }
+    setBusy(true); setError(null);
+    try {
+      const res = await (await getAuth()).requestPasswordReset({ email, redirectTo: `${window.location.origin}/admin/` });
+      if (res?.error) { setError(authMessage(res.error)); return; }
+      setSentTo(email); setView('sent');
+    } catch (err) { setError(authMessage(err)); } finally { setBusy(false); }
+  };
+  if (view === 'sent') return <Centered>
+    <h1>Check your email</h1>
+    <p>If {sentTo} has a staff account, a link to set your password is on its way. It works once, for one hour.</p>
+    <button type="button" className="a-link" onClick={() => show('signIn')}>Back to sign in</button>
+  </Centered>;
+  if (view === 'forgot') return <Centered>
+    <h1>Set or reset your password</h1>
+    {notice === 'expired' && <p className="a-notice warn">That link has expired or was already used. Request a new one.</p>}
+    <p className="a-muted">New staff account, or forgot your password? Enter your email and we’ll send you a link to choose one.</p>
+    <form className="a-form" onSubmit={requestLink} noValidate>
+      <label className="a-field"><span>Email</span><input name="email" type="email" autoComplete="email" required /></label>
+      {error && <p className="a-notice error" role="alert">{error}</p>}
+      <button className="a-btn primary wide" type="submit" disabled={busy}>{busy ? 'Please wait…' : 'Email me a link'}</button>
+    </form>
+    <button type="button" className="a-link" onClick={() => show('signIn')}>Back to sign in</button>
+  </Centered>;
   const submit = async (e) => {
     e.preventDefault();
     const d = new FormData(e.currentTarget);
-    const email = String(d.get('email') || '').trim(), password = String(d.get('password') || ''), name = String(d.get('name') || '').trim();
+    const email = String(d.get('email') || '').trim(), password = String(d.get('password') || '');
     if (!email || !password) { setError('Enter your email and password.'); return; }
     setBusy(true); setError(null);
     try {
       const auth = await getAuth();
-      const res = mode === 'signUp' ? await auth.signUp.email({ email, password, name: name || email.split('@')[0] }) : await auth.signIn.email({ email, password });
+      const res = await auth.signIn.email({ email, password });
       if (res?.error) { setError(authMessage(res.error)); return; }
       const { data } = await auth.getSession();
       if (!data?.user) { setError('You’re signed in, but this browser didn’t keep the session. Allow cookies for this site and try again.'); return; }
@@ -102,18 +147,46 @@ function SignIn({ onSignedIn }) {
     } catch (err) { setError(authMessage(err)); } finally { setBusy(false); }
   };
   return <Centered>
-    <h1>{mode === 'signIn' ? 'Sign in' : 'Create a staff account'}</h1>
+    <h1>Sign in</h1>
+    {notice === 'passwordSet' && <p className="a-notice ok" role="status">Password set. Sign in with your new password.</p>}
     <form className="a-form" onSubmit={submit} noValidate>
-      {mode === 'signUp' && <label className="a-field"><span>Name</span><input name="name" autoComplete="name" /></label>}
       <label className="a-field"><span>Email</span><input name="email" type="email" autoComplete="email" required /></label>
-      <label className="a-field"><span>Password</span><input name="password" type="password" autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'} minLength={8} required /></label>
-      {mode === 'signUp' && <p className="a-hint">New accounts can’t open the admin until the site owner grants them the admin role.</p>}
+      <label className="a-field"><span>Password</span><input name="password" type="password" autoComplete="current-password" required /></label>
       {error && <p className="a-notice error" role="alert">{error}</p>}
-      <button className="a-btn primary wide" type="submit" disabled={busy}>{busy ? 'Please wait…' : mode === 'signIn' ? 'Sign in' : 'Create account'}</button>
+      <button className="a-btn primary wide" type="submit" disabled={busy}>{busy ? 'Please wait…' : 'Sign in'}</button>
     </form>
-    <button type="button" className="a-link" onClick={() => { setMode(mode === 'signIn' ? 'signUp' : 'signIn'); setError(null); }}>
-      {mode === 'signIn' ? 'No account yet? Create one' : 'Already have an account? Sign in'}
-    </button>
+    <button type="button" className="a-link" onClick={() => show('forgot')}>Set or reset your password</button>
+    <p className="a-hint">Staff accounts are created by the site owner. Ask them if you need access.</p>
+  </Centered>;
+}
+
+// Opened from the password email: choose a password for this account.
+function SetPassword({ token, onDone, onExpired }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const submit = async (e) => {
+    e.preventDefault();
+    const d = new FormData(e.currentTarget);
+    const password = String(d.get('password') || ''), again = String(d.get('again') || '');
+    if (password.length < 8) { setError('Use a password of at least 8 characters.'); return; }
+    if (password !== again) { setError('The two passwords don’t match.'); return; }
+    setBusy(true); setError(null);
+    try {
+      const res = await (await getAuth()).resetPassword({ newPassword: password, token });
+      if (res?.error?.code === 'INVALID_TOKEN') { onExpired(); return; }
+      if (res?.error) { setError(authMessage(res.error)); return; }
+      onDone();
+    } catch (err) { setError(authMessage(err)); } finally { setBusy(false); }
+  };
+  return <Centered>
+    <h1>Choose a password</h1>
+    <form className="a-form" onSubmit={submit} noValidate>
+      <label className="a-field"><span>New password</span><input name="password" type="password" autoComplete="new-password" minLength={8} required /></label>
+      <label className="a-field"><span>Type it again</span><input name="again" type="password" autoComplete="new-password" minLength={8} required /></label>
+      <p className="a-hint">At least 8 characters. A long phrase is easiest to remember.</p>
+      {error && <p className="a-notice error" role="alert">{error}</p>}
+      <button className="a-btn primary wide" type="submit" disabled={busy}>{busy ? 'Please wait…' : 'Set password'}</button>
+    </form>
   </Centered>;
 }
 

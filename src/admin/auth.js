@@ -17,8 +17,9 @@ export async function getToken() {
 export function authMessage(err) {
   const code = err?.error?.code || err?.code || '';
   if (code === 'INVALID_EMAIL_OR_PASSWORD' || err?.status === 401) return 'That email and password don’t match an account.';
-  if (code.startsWith('USER_ALREADY_EXISTS')) return 'An account with this email already exists. Sign in instead.';
   if (code === 'PASSWORD_TOO_SHORT') return 'Use a password of at least 8 characters.';
+  if (code === 'PASSWORD_TOO_LONG') return 'That password is too long. Use 128 characters or fewer.';
+  if (code === 'INVALID_TOKEN') return 'That link has expired or was already used. Request a new one.';
   if (err?.status === 429) return 'Too many attempts. Wait a minute and try again.';
   return err?.message || 'Something went wrong. Try again.';
 }
